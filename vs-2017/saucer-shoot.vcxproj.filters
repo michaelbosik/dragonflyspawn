@@ -98,6 +98,9 @@
     <ClInclude Include="LevelParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Saucer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LogManager.cpp">
@@ -184,9 +187,13 @@
     <ClCompile Include="game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Saucer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="README.txt" />
+    <Text Include="..\levels\Example_Level.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\SFML-2.5\bin\openal32.dll" />

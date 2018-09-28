@@ -6,42 +6,13 @@
 #include "DisplayManager.h"
 #include "ResourceManager.h"
 #include "LogManager.h"
+#include "utility.h"
 
-df::LevelParser::LevelParser() {}
-
-//Set l_width to a new width
-void df::LevelParser::setWidth(int new_width) {
-	if (new_width < df::WINDOW_HORIZONTAL_CHARS_DEFAULT)
-		l_width = new_width;
-	else
-		LM.writeLog("Parsed level width too large. Needs to be less than: %i", df::WINDOW_HORIZONTAL_CHARS_DEFAULT);
-}
-
-//Returns l_width
-int df::LevelParser::getWidth() {
-	return l_width;
-}
-
-//Set l_height to a new height
-void df::LevelParser::setHeight(int new_height) {
-	if (new_height < df::WINDOW_VERTICAL_CHARS_DEFAULT)
-		l_height = new_height;
-	else
-		LM.writeLog("Parsed level height too large. Needs to be less than: %i", df::WINDOW_VERTICAL_CHARS_DEFAULT);
-}
-
-//Returns l_height
-int df::LevelParser::getHeight() {
-	return l_height;
-}
-
-//Set frames to a new amount
-void df::LevelParser::setFrames(int new_frames) {
-	l_frames = new_frames;
-}
-
-int df::LevelParser::getFrames() {
-	return l_frames;
+df::LevelParser::LevelParser() {
+	setType("Level");
+	setSpriteSlowdown(0);
+	setPosition(df::Vector(0, 0));
+	setAltitude(0);
 }
 
 //Set a specific character to a location in the level matrix
@@ -57,30 +28,51 @@ char df::LevelParser::getLvlPiece(df::Vector pos) {
 	return NULL;
 }
 
-//Clears the level matrix
+//Clears the level sprite
 void df::LevelParser::clearLevel() {
-	for (int i = 0; i < l_width; i++)
-		for (int j = 0; j < l_height; j++)
-			level[i][j] = NULL;
+
+	if (!RM.getSprite("level"))
+		return;
+
+	setSprite(NULL);
+	RM.unloadSprite("level");
 }
 
 //Fills the level matrix with characters parsed from the level file
 void df::LevelParser::loadLevel(std::string filename) {
-	std::ifstream l_file(filename);
-	int l_line_num = 0;
-	if (l_file.is_open()) {
-		setFrames(RM.readLineInt(&l_file, &l_line_num, FRAMES_TOKEN.c_str()));
-		setWidth(RM.readLineInt(&l_file, &l_line_num, WIDTH_TOKEN.c_str()));
-		setHeight(RM.readLineInt(&l_file, &l_line_num, HEIGHT_TOKEN.c_str()));
-		//do spawn
-		//do finish
-		
+
+	clearLevel(); //Clear the level
+
+	RM.loadSprite(filename, "level"); //Load the level sprite with ResourceManager
+	setSprite(RM.getSprite("level")); 
+
+	std::ifstream p_file(filename);
+	std::string line;
+
+	int line_num = 0;
+	l_frames = RM.readLineInt(&p_file, &line_num, FRAMES_TOKEN.c_str()); //Set the level frames
+	l_width = RM.readLineInt(&p_file, &line_num, WIDTH_TOKEN.c_str()); //Set the level width
+	l_height = RM.readLineInt(&p_file, &line_num, HEIGHT_TOKEN.c_str()); //Set the level height
+	std::string color = RM.readLineStr(&p_file, &line_num, COLOR_TOKEN.c_str());
+	
+	df::Sprite *lvl = new df::Sprite(l_frames);
+
+	while (!p_file.eof()) {
+		df::Frame frame(RM.readFrame(&p_file, &line_num, l_width, l_height));
+		lvl->addFrame(frame);
 	}
-}
 
-//Draw the level matrix to the screen
-void df::LevelParser::draw() {
+	//line_num = ((l_frames*l_height) + (l_frames)+3); //Determine which line in the file to continue parsing on
+	//LM.writeLog("line num is %i, l_frames is %i, l_width is %i, l_height is %i", line_num, l_frames, l_width, l_height);
 
+
+	//Position the level in the center of the screen
+	setPosition(pixelsToSpaces(df::Vector(((DM.getHorizontalPixels() / 2) - (l_width / 2)), ((DM.getVerticalPixels() / 2) - (l_height / 2)))));
+	//LM.writeLog("%s", RM.readLineStr(&p_file, 0, "").c_str());
+	//LM.writeLog("%i", RM.readLineInt(&p_file, &line_num, SLOW_TOKEN.c_str()));
+	//setSpriteSlowdown(RM.readLineInt(&p_file, &line_num, SLOW_TOKEN.c_str()));
+
+	p_file.close();
 }
 
 //Returns a vector presented in a line of the level file

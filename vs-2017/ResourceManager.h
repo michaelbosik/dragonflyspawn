@@ -45,7 +45,7 @@ class ResourceManager : public Manager {
  private:
   ResourceManager(ResourceManager const&); // Don't allow copy.
   void operator=(ResourceManager const&);  // Don't allow assignment.
-  ResourceManager();		 // Private since a singleton.
+  ResourceManager();			 // Private since a singleton.
   Sprite *p_sprite[MAX_SPRITES]; // Array of (pointers to) Sprites.
   int m_sprite_count;	         // Count of number of loaded sprites.
   Sound m_sound[MAX_SOUNDS];	 // Array of sound buffers.

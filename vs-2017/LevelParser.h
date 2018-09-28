@@ -7,46 +7,33 @@
 
 #include "Vector.h"
 #include "Sprite.h"
+#include "Object.h"
 #include <string>
+#include <fstream>
+#include <iostream>
 
 // Two-letter acronym for easier access to manager.
 #define LP df::LevelParser::getInstance()
 
 namespace df {
 
+	const std::string SLOW_TOKEN = "slow";
 	const std::string SPAWN_TOKEN = "spawn";
 	const std::string FINISH_TOKEN = "fin";
 	const std::string END_LEVEL_TOKEN = "eol";
 	const std::string END_BUTTON_TOKEN = "eob";
 
-	class LevelParser {
+	class LevelParser : public df::Object{
 	private:
 		char** level;		//Matrix of characters that contain the values parsed in the level file
-		//Sprite l_sprite;    //Sprite of the level
 		int l_width;		//Width parsed from level file of the level
 		int l_height;	    //Height parsed from level file of the level
 		int l_frames;		//Amount of frames in the level sprite
+		Vector *spawn;		//Level spawn point
+		Vector *end;		//Level end point
 
 	public:
 		LevelParser();		//Constructor, LevelParser is Singleton
-
-		//Set l_width to a new width
-		void setWidth(int new_width);
-
-		//Returns l_width
-		int getWidth();
-
-		//Set l_height to a new height
-		void setHeight(int new_height);
-
-		//Returns l_height
-		int getHeight();
-
-		//Set l_frames to a new frames
-		void setFrames(int new_frames);
-
-		//Returns l_frames
-		int getFrames();
 
 		//Set a specific character to a location in the level matrix
 		void setLvlPiece(df::Vector pos, char ch);
@@ -59,9 +46,6 @@ namespace df {
 
 		//Fills the level matrix with characters parsed from the level file
 		void loadLevel(std::string filename);
-
-		//Draw the level matrix to the screen
-		void draw();
 
 		//Returns a vector presented in a line of the level file
 		df::Vector readLineVector(std::ifstream *l_file, int *l_line_num, const char* tag);

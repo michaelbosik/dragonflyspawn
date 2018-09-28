@@ -48,6 +48,7 @@ int df::ResourceManager::loadSprite(std::string filename, std::string label) {
 			df::Frame frame(readFrame(&p_file, &p_line_num, width, height));
 			p_sprite[m_sprite_count]->addFrame(frame);
 		}
+
 		p_file.close();
 		p_sprite[m_sprite_count]->setLabel(label);
 		m_sprite_count++;
@@ -92,7 +93,7 @@ df::Frame df::ResourceManager::readFrame(std::ifstream *p_file, int *p_line_numb
 	for (int i = 0; i < height; i++) {
 		getline(*p_file, line);
 		if (line.length() != width) {
-			LM.writeLog("Error parsing sprite file...line %i incorrect length.", i);
+			//LM.writeLog("Error parsing sprite file...line %i incorrect length.", i);
 			df::Frame frame;
 			return frame;
 		}

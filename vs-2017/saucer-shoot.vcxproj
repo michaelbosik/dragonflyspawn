@@ -173,6 +173,7 @@
     <ClInclude Include="ObjectList.h" />
     <ClInclude Include="ObjectListIterator.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="Saucer.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="utility.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="ObjectList.cpp" />
     <ClCompile Include="ObjectListIterator.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="Saucer.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="utility.cpp" />
@@ -211,6 +213,7 @@
     <ClCompile Include="WorldManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="..\levels\Example_Level.txt" />
     <Text Include="README.txt" />
   </ItemGroup>
   <ItemGroup>
