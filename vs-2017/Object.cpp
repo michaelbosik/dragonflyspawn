@@ -156,7 +156,7 @@ void df::Object::draw() {
 	m_sprite_index = getSpriteIndex();
 
 	//Ask graphics manager to draw current frame
-	DM.drawFrame(m_position, m_p_sprite->getFrame(m_sprite_index), m_sprite_center, m_p_sprite->getColor(), ' ');
+	DM.drawFrame(m_position, m_p_sprite->getFrame(m_sprite_index), m_sprite_center, m_p_sprite->getColor(), sprite_transparency);
 
 	//If slowdown is 0, animation frozen
 	if (getSpriteSlowdown() == 0)

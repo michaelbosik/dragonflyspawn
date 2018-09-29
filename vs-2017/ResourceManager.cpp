@@ -44,7 +44,7 @@ int df::ResourceManager::loadSprite(std::string filename, std::string label) {
 
 		p_sprite[m_sprite_count] = new df::Sprite(frames);
 
-		while (!p_file.eof()) {
+		for(int i = 0; i<frames; i++) {
 			df::Frame frame(readFrame(&p_file, &p_line_num, width, height));
 			p_sprite[m_sprite_count]->addFrame(frame);
 		}

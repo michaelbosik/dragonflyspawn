@@ -31,6 +31,7 @@ namespace df {
 		int l_frames;		//Amount of frames in the level sprite
 		Vector *spawn;		//Level spawn point
 		Vector *end;		//Level end point
+		Sprite *lvl;
 
 	public:
 		LevelParser();		//Constructor, LevelParser is Singleton
@@ -51,7 +52,10 @@ namespace df {
 		df::Vector readLineVector(std::ifstream *l_file, int *l_line_num, const char* tag);
 
 		//Returns an int that represents the time in seconds a trigger is activated for
-		int readLineTime(std::ifstream *l_file, int *l_line_num, const char *tag);
+		int parseButton(std::ifstream *l_file, int *l_line_num);
+
+		//Creates collision boxes over every '#' parsed in the level file
+		void createBoxes(Sprite *lvl, int frameNum);
 	};
 }
 

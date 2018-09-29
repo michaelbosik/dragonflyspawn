@@ -49,6 +49,7 @@ void df::WorldManager::shutDown() {
 // Insert Object into world.
 // Return 0 if ok, else -1.
 int df::WorldManager::insertObject(Object *p_o) {
+	LM.writeLog("inserted object");
 	return m_updates.insert(p_o);
 }
 
