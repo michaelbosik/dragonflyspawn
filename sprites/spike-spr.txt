@@ -1,0 +1,7 @@
+frames 1
+width 2
+height 1
+color white
+/\
+end
+eof
