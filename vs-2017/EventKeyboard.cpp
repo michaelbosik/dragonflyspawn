@@ -1,15 +1,17 @@
 //
-//EventKeyboard.cpp
+// EventKeyboard.cpp
 //
 
-#include "EventKeyboard.h"
+#include "EventKeyboard.h";
 
 df::EventKeyboard::EventKeyboard() {
-	setType("KEYBOARD_EVENT");
+	setType(KEYBOARD_EVENT);
+	m_key_val = df::Keyboard::UNDEFINED_KEY;
+	m_keyboard_action = df::EventKeyboardAction::UNDEFINED_KEYBOARD_ACTION;
 }
 
 // Set key in event.
-void df::EventKeyboard::setKey(Keyboard::Key new_key) {
+void df::EventKeyboard::setKey(df::Keyboard::Key new_key) {
 	m_key_val = new_key;
 }
 
@@ -19,7 +21,7 @@ df::Keyboard::Key df::EventKeyboard::getKey() const {
 }
 
 // Set keyboard event action.
-void df::EventKeyboard::setKeyboardAction(EventKeyboardAction new_action) {
+void df::EventKeyboard::setKeyboardAction(EventKeyboardAction new_action){
 	m_keyboard_action = new_action;
 }
 

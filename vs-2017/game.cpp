@@ -16,6 +16,7 @@
 int main(int argc, char *argv[]) {
 
 	GM.startUp();
+	RM.startUp();
 
 	LM.setFlush(true);
 
@@ -29,6 +30,7 @@ int main(int argc, char *argv[]) {
 	RM.loadSprite("../sprites/cube-spr.txt", "cube");
 	RM.loadSprite("../sprites/button-spr.txt", "button");
 
+
 	Player p = Player::Player();
 	Spike spik = Spike::Spike(df::Vector(DM.getHorizontal() - 30, DM.getVertical() - 1));
 	Cube cub = Cube::Cube();
@@ -36,6 +38,7 @@ int main(int argc, char *argv[]) {
 	Button but = Button::Button();
 	but.setPosition(df::Vector(DM.getHorizontal() - 60, DM.getVertical() - 1));
 	but.setPosTarget(df::Vector(DM.getHorizontal() - 30, DM.getVertical() - 1));
+	GM.run();
 
 
 	WM.insertObject(&(df::Object)lp);

@@ -45,6 +45,7 @@ class EventView : public Event {
 
   // Get delta.
   bool getDelta() const;
+
 };
 
 } // end of namespace df

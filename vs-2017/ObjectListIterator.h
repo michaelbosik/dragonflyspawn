@@ -19,7 +19,7 @@ class ObjectListIterator {
 
  private:
   ObjectListIterator();	        // Iterator must be given list when created.
-  int m_index;					// Index into list.
+  int m_index;			// Index into list.
   const ObjectList *m_p_list;	// List iterating over.
 
  public:

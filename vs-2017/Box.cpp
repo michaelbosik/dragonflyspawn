@@ -1,25 +1,25 @@
 //
-//Box.cpp
+// Box.cpp
 //
 
-#include "Box.h"
+#include "Box.h";
+
+// Create box with (0,0) for corner, and 0 for horiz and vert.
+df::Box::Box() {
+	m_corner = df::Vector();
+	m_horizontal = 0;
+	m_vertical = 0;
+}
 
 // Create box with upper-left corner, horiz and vert sizes.
-df::Box::Box(Vector init_corner, float init_horizontal, float init_vertical) {
+df::Box::Box(df::Vector init_corner, float init_horizontal, float init_vertical) {
 	m_corner = init_corner;
 	m_horizontal = init_horizontal;
 	m_vertical = init_vertical;
 }
 
-// Create box with (0,0) for corner, and 0 for horiz and vert.
-df::Box::Box() {
-	m_corner = df::Vector(0, 0);
-	m_horizontal = 0;
-	m_vertical = 0;
-}
-
 // Set upper left corner of box.
-void df::Box::setCorner(Vector new_corner) {
+void df::Box::setCorner(df::Vector new_corner) {
 	m_corner = new_corner;
 }
 

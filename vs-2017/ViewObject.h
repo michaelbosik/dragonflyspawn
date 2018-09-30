@@ -91,8 +91,6 @@ class ViewObject : public Object {
   // Get view display string.
   std::string getViewString() const;
   
-  // Set position of ViewObject, with setting "location" to UNDEFINED.
-  void setPosition(Vector new_pos);
 };
 
 } // end of namespace df

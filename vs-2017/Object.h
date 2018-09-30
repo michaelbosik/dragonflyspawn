@@ -29,7 +29,6 @@ enum Solidness {
 class Object {
 
  private:
-	 bool no_soft;
   int m_id;		        // Unique game engine defined identifier.
   std::string m_type;	        // Game-programmer defined identification.
   Box m_box;                    // Box for sprite boundary & collisions.
@@ -44,7 +43,6 @@ class Object {
   int m_sprite_slowdown_count;  // Slowdown counter.
   int m_altitude;               // 0 to MAX_ALTITUDE (higher drawn on top).
   Solidness m_solidness;        // Solidness state of Object.
-  char sprite_transparency;		// sprite transparent character (0 if none)
 
  public:
 
@@ -73,7 +71,7 @@ class Object {
   // Get position of Object.
   Vector getPosition() const;
 
-  // Handle event.
+  // Handlent.
   // Base class ignores everything.
   // Return 0 if ignored, else 1.
   virtual int eventHandler(const Event *p_event);
@@ -155,18 +153,6 @@ class Object {
   int getSpriteSlowdown() const;
   void setSpriteSlowdownCount(int new_sprite_slowdown_count);
   int getSpriteSlowdownCount() const;
-
-  //Set 'no_soft' setting (true - cannot move onto SOFT Objects)
-  void setNoSoft(bool new_no_soft = true);
-
-  //Get 'no_soft' setting (true - cannot move onto SOFT Objects)
-  bool getNoSoft() const;
-
-  //Set sprite transparency character (0 means none)
-  void setTransparency(char transparent = ' ');
-
-  //Get sprite transparency character (0 means none)
-  char getTransparency() const;
 };
 
 } // end of namespace df

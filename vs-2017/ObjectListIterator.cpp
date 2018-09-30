@@ -4,8 +4,7 @@
 
 #include "ObjectListIterator.h"
 
-// Iterator must be given list when created.
-// Create iterator, over indicated list.
+ // Create iterator, over indicated list.
 df::ObjectListIterator::ObjectListIterator(const ObjectList *p_list) {
 	m_p_list = p_list;
 	first();
@@ -18,7 +17,7 @@ void df::ObjectListIterator::first() {
 
 // Set iterator to next item in list.
 void df::ObjectListIterator::next() {
-	if (m_index < m_p_list->m_count)
+	if(m_index < m_p_list->m_count)
 		m_index++;
 }
 

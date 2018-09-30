@@ -11,9 +11,6 @@
 // System includes.
 #include <SFML/Audio.hpp>
 #include <string>
-#include <iostream>
-#include <fstream>
-
 
 // Engine includes.
 #include "Manager.h"
@@ -45,7 +42,7 @@ class ResourceManager : public Manager {
  private:
   ResourceManager(ResourceManager const&); // Don't allow copy.
   void operator=(ResourceManager const&);  // Don't allow assignment.
-  ResourceManager();			 // Private since a singleton.
+  ResourceManager();		 // Private since a singleton.
   Sprite *p_sprite[MAX_SPRITES]; // Array of (pointers to) Sprites.
   int m_sprite_count;	         // Count of number of loaded sprites.
   Sound m_sound[MAX_SOUNDS];	 // Array of sound buffers.
@@ -67,16 +64,6 @@ class ResourceManager : public Manager {
   // Assign indicated label to Sprite.
   // Return 0 if ok, else -1.
   int loadSprite(std::string filename, std::string label);
-
-  //Read single line 'tag number', returns number
-  int readLineInt(std::ifstream *p_file, int *p_line_num, const char *tag);
-
-  //Read single line 'tag string', return string
-  std::string readLineStr(std::ifstream *p_file, int *p_line_num, const char *tag);
-
-  //Read frame until 'eof', return Frame
-  Frame readFrame(std::ifstream *p_file, int *p_line_number, int width, int height);
-
 
   // Unload Sprite with indicated label.
   // Return 0 if ok, else -1.
@@ -109,7 +96,16 @@ class ResourceManager : public Manager {
   // Find Music with indicated label.
   // Return pointer to it if found, else NULL.
   Music *getMusic(std::string label);
-};
+
+  //Read single line tag number return number
+  int readLineInt(std::ifstream *p_file, int *p_line_num, const char *tag);
+
+  //Read single line tag string return string
+  std::string readLineStr(std::ifstream *p_file, int *p_line_num, const char *tag);
+
+  //Read frame until eof return frame
+  Frame readFrame(std::ifstream *p_file, int *p_line_num, int width, int height);
+}; 
 
 } // end of namespace df
 #endif //__RESOURCE_MANAGER_H__

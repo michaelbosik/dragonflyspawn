@@ -12,8 +12,7 @@
 #include "Vector.h"
 
 namespace df {
-
-const std::string MOUSE_EVENT = "df::mouse";
+	const std::string MOUSE_EVENT_TYPE = "df::mouse";
 
 // Set of mouse actions recognized by Dragonfly.
 enum EventMouseAction {
@@ -31,6 +30,7 @@ enum Button {
   RIGHT,
   MIDDLE,
 };
+
 } // end of namespace Mouse
   
 class EventMouse : public Event {

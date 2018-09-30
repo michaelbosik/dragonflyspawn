@@ -27,7 +27,7 @@ Player::Player() {
 	df::Sprite *p_temp_sprite;
 	p_temp_sprite = RM.getSprite("player");
 	if (!p_temp_sprite)
-		LM.writeLog("Player::Player(): Warning! Sprite '%s' not found", "ship");
+		LM.writeLog("Player::Player(): Warning! Sprite '%s' not found", "player");
 	else {
 		setSprite(p_temp_sprite, true);
 		setSpriteSlowdown(0); 
@@ -40,7 +40,7 @@ Player::Player() {
 	setType("Player");
 
 	// Set starting location.
-	df::Vector pos(17.0f, DM.getVertical() / 2.0f);
+	df::Vector pos(7.0f, DM.getVertical() / 2.0f);
 	setPosition(pos);
 
 	horizontalSpeed = 0;
@@ -114,7 +114,7 @@ void Player::kbd(const df::EventKeyboard *p_keyboard_event) {
 		else if (p_keyboard_event->getKeyboardAction() == df::KEY_RELEASED)
 			horizontalKeyPressed = 0;
 		break;
-		case df::Keyboard::SPACE:
+	case df::Keyboard::SPACE:
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN || p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED)
 		{
 			if (!jumped)

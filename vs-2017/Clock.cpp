@@ -2,37 +2,45 @@
 //Clock.cpp
 //
 
-#include "Clock.h"
-#include "Windows.h"
+#include "clock.h";
+#include <Windows.h>;
 
+// Constructor
 // Sets previous_time to current time.
 df::Clock::Clock() {
-	SYSTEMTIME sysTime;
-	GetSystemTime(&sysTime);
-	m_previous_time = (sysTime.wMinute * 6000) + (sysTime.wSecond * 1000) + sysTime.wMilliseconds;
+	SYSTEMTIME time;
+	GetSystemTime(&time);
+	m_previous_time = (time.wMinute * 6000) +
+		(time.wSecond * 1000) +
+		(time.wMilliseconds);
 }
 
 // Return time elapsed since delta() was called, -1 if error.
 // Resets clock time.
 // Units are microseconds.
 long int df::Clock::delta() {
-	SYSTEMTIME sysTime;
-	GetSystemTime(&sysTime);
-	long int preTime = m_previous_time;
-	long int postTime = (sysTime.wMinute * 6000) + (sysTime.wSecond * 1000) + sysTime.wMilliseconds;
-	long int elapsedTime = postTime - preTime;
-	m_previous_time = postTime;
+	SYSTEMTIME currentTime;
+	GetSystemTime(&currentTime);
+	long int beforeCall = m_previous_time;
+	long int afterCall = (currentTime.wMinute * 6000) + 
+		(currentTime.wSecond * 1000) +
+		(currentTime.wMilliseconds);
+	long int elapsedTime = afterCall - beforeCall;
+	m_previous_time = afterCall;
 	return elapsedTime;
+
 }
 
 // Return time elapsed since delta() was called, -1 if error.
 // Does not reset clock time.
 // Units are microseconds.
-long int df::Clock::split() const{
-	SYSTEMTIME sysTime;
-	GetSystemTime(&sysTime);
-	long int preTime = m_previous_time;
-	long int postTime = (sysTime.wMinute * 6000) + (sysTime.wSecond * 1000) + sysTime.wMilliseconds;
-	long int elapsedTime = postTime - preTime;
+long int df::Clock::split() const {
+	SYSTEMTIME currentTime;
+	GetSystemTime(&currentTime);
+	long int beforeCall = m_previous_time;
+	long int afterCall = (currentTime.wMinute * 6000) +
+		(currentTime.wSecond * 1000) +
+		(currentTime.wMilliseconds);
+	long int elapsedTime = afterCall - beforeCall;
 	return elapsedTime;
 }
