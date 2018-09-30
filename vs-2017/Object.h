@@ -43,7 +43,9 @@ class Object {
   int m_sprite_slowdown_count;  // Slowdown counter.
   int m_altitude;               // 0 to MAX_ALTITUDE (higher drawn on top).
   Solidness m_solidness;        // Solidness state of Object.
-
+  bool no_soft;					// true - cannot move onto SOFT objects
+  char sprite_transparency;		// sprite transparent character (0 if none)
+  
  public:
 
   // Construct Object. 
@@ -153,6 +155,18 @@ class Object {
   int getSpriteSlowdown() const;
   void setSpriteSlowdownCount(int new_sprite_slowdown_count);
   int getSpriteSlowdownCount() const;
+
+  //Set 'no_soft' setting (true - cannot move onto SOFT Objects)
+  void setNoSoft(bool new_no_soft = true);
+
+  //Get 'no_soft' setting (true - cannot move onto SOFT Objects)
+  bool getNoSoft() const;
+
+  //Set sprite transparency character (0 means none)
+  void setTransparency(char transparent = ' ');
+
+  //Get sprite transparency character (0 means none)
+  char getTransparency() const;
 };
 
 } // end of namespace df

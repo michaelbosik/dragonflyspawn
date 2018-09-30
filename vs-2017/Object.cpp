@@ -248,3 +248,23 @@ void df::Object::setSpriteSlowdownCount(int new_sprite_slowdown_count) {
 int df::Object::getSpriteSlowdownCount() const {
 	return m_sprite_slowdown_count;
 }
+
+//Set 'no_soft' setting (true - cannot move onto SOFT Objects)
+void df::Object::setNoSoft(bool new_no_soft) {
+	no_soft = new_no_soft;
+}
+
+//Get 'no_soft' setting (true - cannot move onto SOFT Objects)
+bool df::Object::getNoSoft() const {
+	return no_soft;
+}
+
+//Set sprite transparency character (0 means none)
+void df::Object::setTransparency(char transparent) {
+	sprite_transparency = transparent;
+}
+
+//Get sprite transparency character (0 means none)
+char df::Object::getTransparency() const {
+	return sprite_transparency;
+}
