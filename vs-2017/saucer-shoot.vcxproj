@@ -152,14 +152,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Box.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Clock.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Cube.h" />
     <ClInclude Include="DisplayManager.h" />
     <ClInclude Include="Event.h" />
+    <ClInclude Include="EventButton.h" />
     <ClInclude Include="EventCollision.h" />
+    <ClInclude Include="EventCubeMove.h" />
     <ClInclude Include="EventKeyboard.h" />
     <ClInclude Include="EventMouse.h" />
     <ClInclude Include="EventOut.h" />
+    <ClInclude Include="EventPlayer.h" />
+    <ClInclude Include="EventSpike.h" />
     <ClInclude Include="EventStep.h" />
     <ClInclude Include="EventView.h" />
     <ClInclude Include="Frame.h" />
@@ -172,9 +178,11 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectList.h" />
     <ClInclude Include="ObjectListIterator.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Saucer.h" />
     <ClInclude Include="Sound.h" />
+    <ClInclude Include="Spike.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="utility.h" />
     <ClInclude Include="Vector.h" />
@@ -183,13 +191,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Box.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Clock.cpp" />
+    <ClCompile Include="Cube.cpp" />
     <ClCompile Include="DisplayManager.cpp" />
     <ClCompile Include="Event.cpp" />
+    <ClCompile Include="EventButton.cpp" />
     <ClCompile Include="EventCollision.cpp" />
+    <ClCompile Include="EventCubeMove.cpp" />
     <ClCompile Include="EventKeyboard.cpp" />
     <ClCompile Include="EventMouse.cpp" />
     <ClCompile Include="EventOut.cpp" />
+    <ClCompile Include="EventPlayer.cpp" />
+    <ClCompile Include="EventSpike.cpp" />
     <ClCompile Include="EventStep.cpp" />
     <ClCompile Include="EventView.cpp" />
     <ClCompile Include="Frame.cpp" />
@@ -203,9 +217,11 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectList.cpp" />
     <ClCompile Include="ObjectListIterator.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Saucer.cpp" />
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="Spike.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="utility.cpp" />
     <ClCompile Include="Vector.cpp" />

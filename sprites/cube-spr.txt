@@ -1,0 +1,8 @@
+frames 1
+width 3
+height 2
+color white
+___
+¦ ¦
+end
+eof
