@@ -145,7 +145,14 @@ void df::LevelParser::createBoxes(df::Sprite *lvl, int frameNum) {
 		df::Object *lvlBox = new df::Object();
 		lvlBox->setSprite(boxSprite);
 		lvlBox->setType("lvlBox");
+		DM.drawCh(start, '*', MAGENTA);
+		DM.drawCh(df::Vector(start.getX() + horiz, start.getY() + 1), '*', YELLOW);
 		df::Box box(start, horiz, 1);
 		lvlBox->setBox(box);
 	}
+}
+
+void df::LevelParser::draw() {
+	createBoxes(lvl, getSpriteIndex());
+	df::Object::draw();
 }
