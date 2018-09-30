@@ -65,7 +65,6 @@ class DisplayManager : public Manager {
   int m_window_vertical_pixels;   // Vertical pixels in window.
   int m_window_horizontal_chars;  // Horizontal ASCII spaces in window.
   int m_window_vertical_chars;    // Vertical ASCII spaces in window.
-  sf::Color window_background_color; //Background color of window
   sf::RectangleShape *m_p_rectangle; // Backing rectangle for under text.
   sf::Text *m_p_text;                // ASCII character to draw.
 
@@ -93,7 +92,7 @@ class DisplayManager : public Manager {
   // If centered true, then center frame at (x,y).
   // Return 0 if ok, else -1.
   int drawFrame(Vector world_pos, Frame frame, bool centered, 
-                Color color, char transparent) const;
+                Color color) const;
 
   // Draw string at window location (x,y) with color.
   // Justified left, center or right.
@@ -119,9 +118,6 @@ class DisplayManager : public Manager {
 
   // Return pointer to SFML drawing window.
   sf::RenderWindow *getWindow() const;
-
-  //Set default background color.
-  void setBackgroundColor(sf::Color new_color);
 };
 
 } // end of namespace df

@@ -26,13 +26,12 @@ const int MAX_ALTITUDE = 4;
   WorldManager();                 // Private since a singleton.
   WorldManager (WorldManager const&);  // Don't allow copy.
   void operator=(WorldManager const&); // Don't allow assignment.
-  ObjectList m_updates;			  // All Objects in game world.
+  ObjectList m_updates;		  // All Objects in game world.
   ObjectList m_deletions;         // List of all Objects to delete.
   Object *m_p_view_following;     // Object view is following.
   Box m_boundary;                 // World boundary.
-  Box m_view;			          // Player view of game world.
+  Box m_view;			  // Player view of game world.
   Vector m_view_slack;	          // "Slack" for view following.
-  bool centerView;				  // true if object should have centered view camera, false if otherwise
 
  public:
   // Get the one and only instance of the WorldManager.
@@ -113,12 +112,6 @@ const int MAX_ALTITUDE = 4;
   // Set view to center screen on position view_pos.
   // View edge will not go beyond world boundary.
   void setViewPosition(Vector new_view_pos);
-
-  // Get player centerView
-  bool getCenterView();
-
-  // Set centerView
-  void setCenterView(bool new_centerView);
 };
 
 } // end of namespace df

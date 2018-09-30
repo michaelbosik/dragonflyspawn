@@ -1,23 +1,38 @@
 //
-//Object.cpp
+// Object.cpp
 //
 
-#include "Object.h"
-#include "WorldManager.h"
-#include "DisplayManager.h"
 
-// Construct Object. 
-// Set default parameters and add to game world (WorldManager).
+
+#include "Object.h";
+#include "WorldManager.h";
+#include "DisplayManager.h";
+
+// Constructor
 df::Object::Object() {
-	df::WorldManager::getInstance().insertObject(this);
-	setSpeed(0);
-	setAltitude(1);
-	setSpriteSlowdownCount(0);
+	m_type = "Object";
+	m_position = df::Vector();
+	m_altitude = 2;
+	m_solidness = HARD;
+	m_speed = 0;
+	m_direction = Vector();
+
+	m_p_sprite = NULL;
+	m_sprite_index = 0;
+	m_sprite_slowdown = 0;
+	m_sprite_slowdown_count = 0;
+	m_box.setCorner(df::Vector());
+	m_box.setHorizontal(1);
+	m_box.setVertical(1);
+	// Add self to game world.
+	WorldManager::getInstance().insertObject(this);
 }
 
-// Destroy object, removing itself from game world (WorldManager).
-df::Object::~Object(){
-	df::WorldManager::getInstance().removeObject(this);
+// Deconstructor
+df::Object::~Object() {
+
+	//Remove self from game world
+	WorldManager::getInstance().removeObject(this);
 }
 
 // Set Object id.
@@ -41,7 +56,7 @@ std::string df::Object::getType() const {
 }
 
 // Set position of Object.
-void df::Object::setPosition(Vector new_position) {
+void df::Object::setPosition(df::Vector new_position) {
 	m_position = new_position;
 }
 
@@ -52,44 +67,38 @@ df::Vector df::Object::getPosition() const {
 
 // Handle event.
 // Base class ignores everything.
-// Return 0 if ignored, else 1.
-int df::Object::eventHandler(const Event *p_event) {
+// Return 0 if ignored, else 1
+int df::Object::eventHandler(const df::Event *p_event) {
 	return 0;
 }
 
-// Return True if Object is HARD or SOFT, else false.
+//Check if Object is either HARD or SOFT
 bool df::Object::isSolid() const {
-	if (getSolidness() == HARD || getSolidness() == SOFT)
-		return true;
-	return false;
+	return (m_solidness == HARD || m_solidness == SOFT);
 }
 
-// Set solidness of Object, with checks for consistency.  
-// Return 0 if ok, else -1.
-int df::Object::setSolidness(Solidness new_solid) {
-	if (new_solid == SPECTRAL || new_solid == HARD || new_solid == SOFT) {
-		m_solidness = new_solid;
-		return 0;
-	}
-	return -1;
+//Set Solidness of object
+int df::Object::setSolidness(df::Solidness new_solid) {
+	m_solidness = new_solid;
+	return 0;
 }
 
-// Return solidness of Object.
+//Get Solidness of object
 df::Solidness df::Object::getSolidness() const {
 	return m_solidness;
 }
 
-// Set altitude of Object, with checks for range [0, MAX_ALTITUDE].
-// Return 0 if ok, else -1.
+//Set Altitude of Object
 int df::Object::setAltitude(int new_altitude) {
-	if (new_altitude >= 0 && new_altitude <= MAX_ALTITUDE) {
+	if(new_altitude > 0 && new_altitude < MAX_ALTITUDE)
+	{
 		m_altitude = new_altitude;
 		return 0;
 	}
 	return -1;
 }
 
-// Return altitude of Object.
+//Get Altitude of Object
 int df::Object::getAltitude() const {
 	return m_altitude;
 }
@@ -105,7 +114,7 @@ float df::Object::getSpeed() const {
 }
 
 // Set direction of Object.
-void df::Object::setDirection(Vector new_direction) {
+void df::Object::setDirection(df::Vector new_direction) {
 	m_direction = new_direction;
 }
 
@@ -115,7 +124,7 @@ df::Vector df::Object::getDirection() const {
 }
 
 // Set direction and speed of Object.
-void df::Object::setVelocity(Vector new_velocity) {
+void df::Object::setVelocity(df::Vector new_velocity) {
 	m_speed = new_velocity.getMagnitude();
 	new_velocity.normalize();
 	m_direction = new_velocity;
@@ -131,12 +140,12 @@ df::Vector df::Object::getVelocity() const {
 // Predict Object position based on speed and direction.
 // Return predicted position.
 df::Vector df::Object::predictPosition() {
-	df::Vector new_pos = getPosition() + getVelocity();
-	return new_pos;
+	df::Vector prediction = m_position + getVelocity();
+	return prediction;
 }
 
 // Set bounding box of Object.
-void df::Object::setBox(Box new_box) {
+void df::Object::setBox(df::Box new_box) {
 	m_box = new_box;
 }
 
@@ -148,49 +157,51 @@ df::Box df::Object::getBox() const {
 // Draw single Sprite Frame.
 // Drawing accounts for centering & slowdown, and advances Sprite Frame.
 void df::Object::draw() {
+	
+	DM.drawCh(getPosition(), '*', df::Color::MAGENTA);
+	DM.drawCh(df::Vector(getPosition().getX() + getBox().getHorizontal(), getPosition().getY()), '*', df::Color::MAGENTA);
+	DM.drawCh(df::Vector(getPosition().getX(), getPosition().getY() + getBox().getVertical()), '*', df::Color::MAGENTA);
+	DM.drawCh(df::Vector(getPosition().getX() + getBox().getHorizontal(), getPosition().getY() + getBox().getVertical()), '*', df::Color::MAGENTA);
 
-	//If sprite not defines, dont continue further
 	if (m_p_sprite == NULL)
 		return;
 
 	m_sprite_index = getSpriteIndex();
 
-	//Ask graphics manager to draw current frame
-	DM.drawFrame(m_position, m_p_sprite->getFrame(m_sprite_index), m_sprite_center, m_p_sprite->getColor(), sprite_transparency);
+	DM.drawFrame(m_position, m_p_sprite->getFrame(m_sprite_index), m_sprite_center, m_p_sprite->getColor());
 
-	//If slowdown is 0, animation frozen
 	if (getSpriteSlowdown() == 0)
 		return;
 
-	//Increment counter
+	m_sprite_slowdown_count = getSpriteSlowdownCount();
 	m_sprite_slowdown_count++;
 
-	//Advance sprite index if appropriate
-	if (m_sprite_slowdown_count >= getSpriteSlowdown()) {
-		setSpriteSlowdownCount(0);
-		setSpriteIndex(getSpriteIndex() + 1);
+	if (m_sprite_slowdown_count >= getSpriteSlowdown())
+	{
 
-		//If at last frame loop to beginning
+		m_sprite_slowdown_count = 0;
+		m_sprite_index++;
+
 		if (m_sprite_index >= m_p_sprite->getFrameCount())
-			setSpriteIndex(0);
+			m_sprite_index = 0;
+
 	}
 
-	//set counter for next draw()
 	setSpriteSlowdownCount(m_sprite_slowdown_count);
 
-	//set index for next draw()
 	setSpriteIndex(m_sprite_index);
-
 }
 
 // Set Object Sprite to new one.
 // If set_box is true, set bounding box to size of Sprite.
 // Set sprite index to 0 (first frame).
-void df::Object::setSprite(Sprite *p_new_sprite, bool set_box) {
+void df::Object::setSprite(df::Sprite *p_new_sprite, bool set_box) {
 	m_p_sprite = p_new_sprite;
-	if (set_box)
-		m_box = df::Box(getPosition(), m_p_sprite->getHeight(), m_p_sprite->getWidth());
-	setSpriteIndex(0);
+
+	if (set_box) {
+		m_box.setHorizontal((float)m_p_sprite->getWidth());
+		m_box.setVertical((float)m_p_sprite->getHeight());
+	}
 }
 
 // Return pointer to Sprite associated with this Object.
@@ -236,24 +247,4 @@ void df::Object::setSpriteSlowdownCount(int new_sprite_slowdown_count) {
 
 int df::Object::getSpriteSlowdownCount() const {
 	return m_sprite_slowdown_count;
-}
-
-//Set 'no_soft' setting (true - cannot move onto SOFT Objects)
-void df::Object::setNoSoft(bool new_no_soft) {
-	no_soft = new_no_soft;
-}
-
-//Get 'no_soft' setting (true - cannot move onto SOFT Objects)
-bool df::Object::getNoSoft() const {
-	return no_soft;
-}
-
-//Set sprite transparency character (0 means none)
-void df::Object::setTransparency(char transparent) {
-	sprite_transparency = transparent;
-}
-
-//Get sprite transparency character (0 means none)
-char df::Object::getTransparency() const {
-	return sprite_transparency;
 }

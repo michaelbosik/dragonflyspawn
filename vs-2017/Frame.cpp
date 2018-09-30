@@ -2,9 +2,9 @@
 //Frame.cpp
 //
 
-#include "Frame.h"
+#include "Frame.h";
 
-// Create empty frame.
+  // Create empty frame.
 df::Frame::Frame() {
 	m_width = 0;
 	m_height = 0;
@@ -41,7 +41,7 @@ int df::Frame::getHeight() const {
 // Set frame characters (stored as string).
 void df::Frame::setString(std::string new_frame_str) {
 	m_frame_str = new_frame_str;
-};
+}
 
 // Get frame characters (stored as string).
 std::string df::Frame::getString() const {

@@ -1,84 +1,93 @@
 //
-//GameManager.cpp
+//GameManager.h
 //
 
 #include "GameManager.h"
-#include "LogManager.h"
-#include "WorldManager.h"
-#include "DisplayManager.h"
-#include "InputManager.h"
-#include "EventStep.h"
-#include "Clock.h"
-#include "Windows.h"
+#include "Clock.h";
+#include <Windows.h>;
+#include "EventStep.h";
+#include "WorldManager.h";
+#include "InputManager.h";
+#include "DisplayManager.h";
+#include "LogManager.h";
 
+//Constructor
 df::GameManager::GameManager() {
 	setType("GameManager");
+	m_step_count = 0;
 }
-
-df::GameManager::GameManager(GameManager const&) {}
-
-void df::GameManager::operator=(GameManager const&) {}
 
 // Get the singleton instance of the GameManager.
 df::GameManager &df::GameManager::getInstance() {
-	static GameManager gameManager;
-	return gameManager;
+	static GameManager instance;
+	return instance;
 }
 
 // Startup all GameManager services.
 int df::GameManager::startUp() {
-	df::LogManager::getInstance().startUp(); //start LogManager
-	df::DisplayManager::getInstance().startUp(); //start DisplayManager
-	df::InputManager::getInstance().startUp(); //start InputManager
-	df::WorldManager::getInstance().startUp(); //start WorldManager
+	df::LogManager &logMan = df::LogManager::getInstance();
+	logMan.startUp();
+	logMan.writeLog("I STARTED");
+	df::DisplayManager &disMan = df::DisplayManager::getInstance();
+	disMan.startUp();
+	df::WorldManager &worMan = df::WorldManager::getInstance();
+	worMan.startUp();
+	df::InputManager &inpMan = df::InputManager::getInstance();
+	inpMan.startUp();
+	df::Manager::startUp();
 	m_game_over = false;
 	return 0;
+}
+
+// Shut down GameManager services.
+void df::GameManager::shutDown() {
+	df::LogManager &logMan = df::LogManager::getInstance();
+	logMan.shutDown();
+	df::InputManager &inpMan = df::InputManager::getInstance();
+	inpMan.shutDown();
+	df::DisplayManager &disMan = df::DisplayManager::getInstance();
+	disMan.shutDown();
+	df::WorldManager &worMan = df::WorldManager::getInstance();
+	worMan.shutDown();
+	m_game_over = true;
+	df::Manager::shutDown();
 }
 
 // Game manager only accepts step events.
 // Return false if other event.
 bool df::GameManager::isValid(std::string event_name) const {
-	if (event_name == "STEPEVENT")
-		return true;
-	return false;
+	return(event_name == "STEP_EVENT");
 }
 
-// Shut down GameManager services.
-void df::GameManager::shutDown() {
-	df::LogManager::getInstance().shutDown(); //shut down LogManager
-	df::DisplayManager::getInstance().shutDown(); //shut down DisplayManager
-	df::InputManager::getInstance().shutDown(); //shut down InputManager
-	df::WorldManager::getInstance().shutDown(); //shut down WorldManager
-	setGameOver(true);
-}
 
 // Run game loop.
 void df::GameManager::run() {
-	Clock clock;
-	long int loop_time, intended_sleep_time, actual_sleep_time;
-	long int adjust_time = 0;
-	while (!m_game_over){
-		clock.delta();
-
-		df::InputManager::getInstance().getInput();
-		df::WorldManager::getInstance().update();
-		df::WorldManager::getInstance().draw();
-		df::DisplayManager::getInstance().swapBuffers();
-
-		loop_time = clock.split();
-		intended_sleep_time = getFrameTime() - loop_time - adjust_time;
-		clock.delta();
-
-		df::EventStep es = EventStep(m_step_count);
-		onEvent(&es);
-
-		if(intended_sleep_time>0)
-			Sleep(intended_sleep_time);
-
-		actual_sleep_time = clock.split();
-		adjust_time = actual_sleep_time - intended_sleep_time;
-
-		m_step_count++;
+	df::LogManager &logMan = df::LogManager::getInstance();
+	df::DisplayManager &disMan = df::DisplayManager::getInstance();
+	df::WorldManager &worMan = df::WorldManager::getInstance();
+	df::InputManager &inpMan = df::InputManager::getInstance();
+	Clock c;
+	long int adjustTime = 0;
+	int gameLoopCount = 0;
+	long int loopTime, intendedSleepTime, actualSleepTime;
+	//While the game isnt over, run the game
+	while (!m_game_over)
+	{
+		c.delta();
+		inpMan.getInput();
+		EventStep evs = EventStep(gameLoopCount);
+		onEvent(&evs);
+		worMan.update();
+		worMan.draw();
+		disMan.swapBuffers();
+		loopTime = c.split();
+		intendedSleepTime = getFrameTime() - loopTime - adjustTime;
+		c.delta();
+		if(intendedSleepTime > 0)
+			Sleep(intendedSleepTime);
+		actualSleepTime = c.split();
+		adjustTime = actualSleepTime - intendedSleepTime;
+		gameLoopCount++;
 	}
 }
 
@@ -95,11 +104,11 @@ bool df::GameManager::getGameOver() const {
 
 // Return frame time.  
 // Frame time is target time for each game loop, in milliseconds.
-int df::GameManager::getFrameTime() const{
+int df::GameManager::getFrameTime() const {
 	return FRAME_TIME_DEFAULT;
 }
 
 // Return game loop step count.
 int df::GameManager::getStepCount() const {
-	return m_step_count;
+	return  m_step_count;
 }

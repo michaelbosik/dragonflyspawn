@@ -2,102 +2,100 @@
 //InputManager.cpp
 //
 
-#include "InputManager.h"
+#include "InputManager.h";
 #include "DisplayManager.h"
-#include "EventKeyboard.h"
-#include "EventMouse.h"
-#include "Windows.h"
-#include "LogManager.h"
+#include "EventKeyboard.h";
+#include "EventMouse.h";
+#include "LogManager.h";
 
 df::InputManager::InputManager() {
 	setType("InputManager");
 }
 
-df::InputManager::InputManager(InputManager const&) {}
-void df::InputManager::operator=(InputManager const&) {}
-
- // Get the one and only instance of the InputManager.
+// Get the one and only instance of the InputManager.
 df::InputManager &df::InputManager::getInstance() {
-	static InputManager inputManager;
-	return inputManager;
+	static InputManager instance;
+	return instance;
 }
 
 // Get window ready to capture input.  
 // Return 0 if ok, else return -1;
 int df::InputManager::startUp() {
-	if (!df::DisplayManager::getInstance().isStarted())
+	if (!DM.isStarted()) {
 		return -1;
+	}
+	df::Manager::startUp();
 
-	sf::RenderWindow *window = df::DisplayManager::getInstance().getWindow();
+	sf::RenderWindow *window = DM.getWindow();
 
-	window->setKeyRepeatEnabled(false); //Disable key repeat
-
-	df::Manager::startUp(); //Start Manager
-
+	window->setKeyRepeatEnabled(false);
 	return 0;
 }
 
 // Revert back to normal window mode.
 void df::InputManager::shutDown() {
-
-	sf::RenderWindow *window = df::DisplayManager::getInstance().getWindow();
-	window->setKeyRepeatEnabled(true); //Enable key repeat
-
-	df::Manager::shutDown(); //shutDown Manager
+	DM.getWindow()->setKeyRepeatEnabled(true);
+	df::Manager::shutDown();
 }
 
 // Get input from the keyboard and mouse.
 // Pass event along to all interested Objects.
 void df::InputManager::getInput() {
-	sf::RenderWindow *window = df::DisplayManager::getInstance().getWindow();
+	sf::RenderWindow *window = DM.getWindow();
 	sf::Event event;
-	while (window->pollEvent(event)) {
+	while (window->pollEvent(event))
+	{
 		if (event.type == sf::Event::KeyPressed) {
-			df::EventKeyboard keyE;
-			keyE.setKey((df::Keyboard::Key)event.key.code);
-			keyE.setKeyboardAction(df::KEY_PRESSED);
-			onEvent(&keyE);
+			df::EventKeyboard ek = df::EventKeyboard();
+			ek.setKeyboardAction(df::EventKeyboardAction::KEY_PRESSED);
+			ek.setKey((df::Keyboard::Key)event.key.code);
+			onEvent(&ek);
 		}
-		if (event.type == sf::Event::KeyReleased) {
-			df::EventKeyboard keyE;
-			keyE.setKey((df::Keyboard::Key)event.key.code);
-			keyE.setKeyboardAction(df::KEY_RELEASED);
-			onEvent(&keyE);
+		else if (event.type == sf::Event::KeyReleased) {
+			df::EventKeyboard ek = df::EventKeyboard();
+			ek.setKeyboardAction(df::EventKeyboardAction::KEY_RELEASED);
+			ek.setKey((df::Keyboard::Key)event.key.code);
+			onEvent(&ek);
 		}
-		if (event.type == sf::Event::MouseMoved) {
-			sf::Vector2i pos = sf::Mouse::getPosition(*window);
-			df::EventMouse mouseE;
-			mouseE.setMousePosition(df::Vector(pos.x, pos.y));
-			mouseE.setMouseAction(df::MOVED);
-			onEvent(&mouseE);
+		else if (event.type == sf::Event::MouseMoved) {
+			sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
+			df::EventMouse em = df::EventMouse::EventMouse();
+			em.setMouseAction(EventMouseAction::MOVED);
+			em.setMousePosition(df::Vector((float)mousePos.x, (float)mousePos.y));
+			onEvent(&em);
 		}
-		if (event.type == sf::Event::MouseButtonPressed) {
-			sf::Vector2i pos = sf::Mouse::getPosition(*window);
-			df::EventMouse mouseE;
-			mouseE.setMousePosition(df::Vector(pos.x, pos.y));
-			mouseE.setMouseAction(df::CLICKED);
-			onEvent(&mouseE);
+		else if (event.type == sf::Event::MouseButtonPressed) {
+			sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
+			df::EventMouse em = df::EventMouse::EventMouse();
+			em.setMouseAction(EventMouseAction::PRESSED);
+			em.setMousePosition(df::Vector((float)mousePos.x, (float)mousePos.y));
+			onEvent(&em);
 		}
 	}
-
-	for (int i = 0; i < sf::Keyboard::KeyCount; i++) {
-		if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key)i)) {
-			df::EventKeyboard keyE;
-			keyE.setKey((df::Keyboard::Key)i);
-			keyE.setKeyboardAction(df::KEY_DOWN);
-			onEvent(&keyE);
+	
+	//Mouse is pressed
+	for (int i = 0; i < sf::Mouse::ButtonCount; i++) {
+		if (sf::Mouse::isButtonPressed((sf::Mouse::Button)i)) {
+			sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
+			df::EventMouse evenMouse = df::EventMouse();
+			evenMouse.setMouseAction(df::EventMouseAction::PRESSED);
+			evenMouse.setMouseButton((df::Mouse::Button)i);
+			evenMouse.setMousePosition(df::Vector((float)mousePos.x, (float)mousePos.y));
+			IM.onEvent(&evenMouse);
 			break;
 		}
 	}
 
-	for (int i = 0; i < sf::Mouse::ButtonCount; i++) {
-		if (sf::Mouse::isButtonPressed((sf::Mouse::Button)i)) {
-			sf::Vector2i pos = sf::Mouse::getPosition(*window);
-			df::EventMouse mouseE;
-			mouseE.setMousePosition(df::Vector(pos.x, pos.y));
-			mouseE.setMouseButton((df::Mouse::Button)i);
-			mouseE.setMouseAction(df::CLICKED);
-			onEvent(&mouseE);
+	//Key is pressed.
+	for (int i = 0; i < sf::Keyboard::KeyCount; i++) {
+		if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key)i)) {
+			df::EventKeyboard evenKey = df::EventKeyboard();
+			evenKey.setKeyboardAction(df::EventKeyboardAction::KEY_DOWN);
+			evenKey.setKey((df::Keyboard::Key)i);
+			IM.onEvent(&evenKey);
+			break;
 		}
 	}
+	
+
 }

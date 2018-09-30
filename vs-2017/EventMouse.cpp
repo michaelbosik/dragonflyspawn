@@ -2,14 +2,17 @@
 //EventMouse.cpp
 //
 
-#include "EventMouse.h"
+#include "EventMouse.h";
 
 df::EventMouse::EventMouse() {
-	setType("MOUSE_EVENT");
+	setType(MOUSE_EVENT_TYPE);
+	m_mouse_action = UNDEFINED_MOUSE_ACTION;
+	m_mouse_button = Mouse::UNDEFINED_MOUSE_BUTTON;
+	m_mouse_xy = df::Vector();
 }
 
 // Set mouse event's action.
-void df::EventMouse::setMouseAction(EventMouseAction new_mouse_action) {
+void df::EventMouse::setMouseAction(df::EventMouseAction new_mouse_action) {
 	m_mouse_action = new_mouse_action;
 }
 
@@ -19,7 +22,7 @@ df::EventMouseAction df::EventMouse::getMouseAction() const {
 }
 
 // Set mouse event's button.
-void df::EventMouse::setMouseButton(Mouse::Button new_mouse_button) {
+void df::EventMouse::setMouseButton(df::Mouse::Button new_mouse_button) {
 	m_mouse_button = new_mouse_button;
 }
 
@@ -29,7 +32,7 @@ df::Mouse::Button df::EventMouse::getMouseButton() const {
 }
 
 // Set mouse event's position.
-void df::EventMouse::setMousePosition(Vector new_mouse_xy) {
+void df::EventMouse::setMousePosition(df::Vector new_mouse_xy) {
 	m_mouse_xy = new_mouse_xy;
 }
 

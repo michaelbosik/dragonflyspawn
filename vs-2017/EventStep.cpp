@@ -1,10 +1,10 @@
 //
-//EventStep.h
+//EventStep.cpp
 //
 
 #include "EventStep.h"
 
-  // Default constructor.
+// Constructor
 df::EventStep::EventStep() {
 	m_step_count = 0;
 	setType(STEP_EVENT);
@@ -22,6 +22,6 @@ void df::EventStep::setStepCount(int new_step_count) {
 }
 
 // Get step count.
-int df::EventStep::getStepCount() const{
+int df::EventStep::getStepCount() const {
 	return m_step_count;
 }

@@ -38,12 +38,12 @@ Vector worldToView(Vector world_pos);
 // Convert view position to world position.
 Vector viewToWorld(Vector view_pos);
 
-// Convert integer to string, returning string.
-std::string toString(int i);
-
 char *getTimeString();
 
-bool positionsIntersect(Vector p1, Vector p2);
+bool positionsIntersect(df::Vector p1, df::Vector p2);
+
+// Convert integer to string, returning string.
+std::string toString(int i);
 
 } // end of namespace df
 #endif // __UTILITY_H__

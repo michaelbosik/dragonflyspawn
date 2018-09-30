@@ -1,94 +1,102 @@
-Michael Bosik
-mbosik@wpi.edu
+Brian Earl
+Bearl
 
-Files Included in Submission:
+Platform: Windows
 
-Header Files
-- Box.h
-- Clock.h
-- DisplayManager.h
-- Event.h
-- EventCollision.h
-- EventKeyboard.h
-- EventMouse.h
-- EventOut.h
-- EventStep.h
-- EventView.h
-- Frame.h
-- GameManager.h
-- InputManager.h
-- LogManager.h
-- Manager.h
-- Music.h
-- Object.h
-- ObjectList.h
-- ObjectListIterator.h
-- ResourceManager.h
-- Sound.h
-- Sprite.h
-- utility.h
-- Vector.h
-- ViewObject.h
-- WorldManager.h
-- TestInputDetectorObject.h
+Files:
+Box.cpp
+Box.h
+Clock.cpp
+Clock.h
+Color.h
+DevelopmentCheck.cpp
+df-font
+DisplayManager.h
+DisplayManager.cpp
+dragonfly.txt
+Event.cpp
+Event.h
+EventCollision.cpp
+EventCollision.h
+EventKeyboard.cpp
+EventKeyboard.h
+EventMouse.cpp
+EventMouse.h
+EventOut.cpp
+EventOut.h
+EventStep.cpp
+EventStep.h
+EventView.cpp
+EventView.h
+Frame.cpp
+Frame.h
+GameManager.cpp
+GameManager.h
+InputManager.cpp
+InputManager.h
+LogManager.cpp
+LogManager.h
+Main.cpp
+Manager.cpp
+Manager.h
+Music.cpp
+Music.h
+Object.cpp
+Object.h
+ObjectList.cpp
+ObjectList.h
+ObjectListIterator.cpp
+ObjectListIterator.h
+README.txt
+ResourceManager.cpp
+ResourceManager.h
+Sound.cpp
+Sound.h
+Sprite.cpp
+Sprite.h
+utility.cpp
+utility.h
+Vector.cpp
+Vector.h
+ViewObject.cpp
+ViewObject.h
+WorldManager.cpp
+WorldManager.h
 
-Source Files
-- Box.cpp
-- Clock.cpp
-- DisplayManager.cpp
-- Event.cpp.
-- EventCollision.cpp
-- EventKeyboard.cpp
-- EventMouse.cpp
-- EventOut.cpp
-- EventStep.cpp
-- EventView.cpp
-- Frame.cpp
-- GameManager.cpp
-- InputManager.cpp
-- LogManager.cpp
-- Manager.cpp
-- Music.cpp
-- Object.cpp
-- ObjectList.cpp
-- ObjectListIterator.cpp
-- ResourceManager.cpp
-- Sound.cpp
-- Sprite.cpp
-- Test.cpp
-- TIDO.cpp
-- utility.cpp
-- Vector.cpp
-- ViewObject.cpp
-- WorldManager.cpp
+vs-2017/sourcer-shoot.sln
+vs-2017/sourcer-shoot.vcxproj
+vs-2017/sourcer-shoot.vcxproj.filters
+vs-2017/sourcer-shoot.vcxproj.user
 
-Other Files
-- dragonfly.log
-- dragonfly.sln
-- README.txt
-- saucer-shoot.vcxproj
-- saucer-shoot.vcxproj.filters
-- saucer-shoot.vcxproj.user
-- ../df-font.ttf
-- ../Makefile
-- ../sprites/explosion-spr.txt
-- ../sprites/saucer-spr.txt
-- ../sounds/Africa8Bit.wav
-- ../sounds/Pew.wav
+Resources/sounds/explode.wav
+Resources/sounds/fire.wav
+Resources/sounds/game-over.wav
+Resources/sounds/nuke.wav
+Resources/sounds/start-music.wav
 
-The provided source files allow for the user to log messages to a log file, create objects to
-put in object lists and iterate through them, create vectors for objects to follow, create step
-events in the game engine, detect keyboard and mouse input, render objects to the screen as well
-as draw objects with colors, detect object collisions and draw strings to the screen, load sounds,
-msuic and sprites to the engine, associate sprites to objects, set a viewfollowing camera to an
-objects.
+Resources/sprites/bullet-spr.txt
+Resources/sprites/bullet-spr-2.txt
+Resources/sprites/explosion-spr.txt
+Resources/sprites/gameover-spr.txt
+Resources/sprites/startover-spr.txt
+Resources/sprites/saucer-spr.txt
+Resources/sprites/ship-spr.txt
 
-To compile this code, load the project solution into a compiler such as Visual Studio. Build the 
-solution by clicking on the Build drop down and then Build Solution. Click on the Local Windows Debugger
-button to run the code.
 
-The tests for this assignment were written in the source file "Test.cpp". This file contains
-fluent tests for every single method in the Clock, Event, EventStep, GameManager, LogManager,
-Manager, Object, ObjectList, ObjectListIterator, Vector, DisplayManager, InputManager, and 
-WorldManager classes. All of the tests results will be logged to the logfile "dragonfly.log" 
-in the project location on your harddrive. To run these tests, compile the project as explained above.
+How To Compile:
+To compile, open project using the saucer-shoot.sln file found in the vs-2017 folder. 
+When it is open, build the program using the Build Solution option under the Build menu on the toolbar. 
+After it is built, you can launch the program using the Local Windows Debugger button.
+
+Other Information:
+After the code is compiled, open up the dragonfly.txt file and you will see a print out of all of the tests for the code.
+Alternatively, you can also open the DevelopmentCheck.cpp file to see all of the tests for the code.
+When you run the code, a window will open up with a ship on the left and a ViewObject on the right
+You can use the WASD keys to move the ship in all four direction
+If you move the ship off the right side of the screen, it will be teleported back to its starting position
+If you press the F key, a sound effect will play when the key is released
+If you press the left mouse button, the number of the viewObject will increase
+If you press the Q key, Music will start to play and then control will be taken away
+Text and a character will be displayed on the screen and after a little, the screen will change and the character and text will move
+Soon, the music will pause, and a sound will play and stop part way through
+After a little, the same sound will play again, pause part way through and resume after a little, the music will then resume.

@@ -2,26 +2,26 @@
 //Sound.cpp
 //
 
-#include "Sound.h"
-#include "LogManager.h"
+#include "Sound.h";
 
 // Constructor.
 df::Sound::Sound() {
-	m_sound.setLoop(false);
+
 }
 
 // Destructor.
 df::Sound::~Sound() {
-	m_sound.resetBuffer();
+	
 }
 
 // Load sound buffer from file.
 // Return 0 if ok, else -1.
 int df::Sound::loadSound(std::string filename) {
-	if (m_sound_buffer.loadFromFile(filename) == false) {
-		LM.writeLog("Error loading sound %s from file.", filename);
+
+	if (!m_sound_buffer.loadFromFile(filename))
 		return -1;
-	}
+
+	m_sound.setBuffer(m_sound_buffer);
 	return 0;
 }
 
@@ -38,9 +38,8 @@ std::string df::Sound::getLabel() const {
 // Play sound.
 // If loop is true, repeat play when done.
 void df::Sound::play(bool loop) {
-	m_sound.setBuffer(m_sound_buffer);
-	if (loop)
-		m_sound.setLoop(true);
+
+	m_sound.setLoop(loop);
 	m_sound.play();
 }
 

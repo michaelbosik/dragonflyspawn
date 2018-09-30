@@ -1,0 +1,23 @@
+﻿  Player.cpp
+c:\users\brik7\source\repos\dragonflyspawn\vs-2017\player.cpp(14): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\brik7\source\repos\dragonflyspawn\vs-2017\player.cpp(15): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\brik7\source\repos\dragonflyspawn\vs-2017\player.cpp(16): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\brik7\source\repos\dragonflyspawn\vs-2017\player.cpp(17): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\brik7\source\repos\dragonflyspawn\vs-2017\eventspike.h(5): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\brik7\source\repos\dragonflyspawn\vs-2017\player.cpp(18): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\brik7\source\repos\dragonflyspawn\vs-2017\eventcubemove.h(5): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\brik7\source\repos\dragonflyspawn\vs-2017\player.cpp(19): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\brik7\source\repos\dragonflyspawn\vs-2017\player.cpp(20): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\brik7\source\repos\dragonflyspawn\vs-2017\eventplayer.h(5): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\brik7\source\repos\dragonflyspawn\vs-2017\eventplayer.h(6): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\brik7\source\repos\dragonflyspawn\vs-2017\player.cpp(90): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\brik7\source\repos\dragonflyspawn\vs-2017\player.cpp(107): warning C4305: '-=': truncation from 'double' to 'float'
+c:\users\brik7\source\repos\dragonflyspawn\vs-2017\player.cpp(122): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\brik7\source\repos\dragonflyspawn\vs-2017\player.cpp(171): warning C4305: '-=': truncation from 'double' to 'float'
+c:\users\brik7\source\repos\dragonflyspawn\vs-2017\player.cpp(177): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\brik7\source\repos\dragonflyspawn\vs-2017\player.cpp(208): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\brik7\source\repos\dragonflyspawn\vs-2017\player.cpp(210): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\brik7\source\repos\dragonflyspawn\vs-2017\player.cpp(219): warning C4305: '+=': truncation from 'double' to 'float'
+  Saucer.cpp
+c1xx : fatal error C1083: Cannot open source file: 'Saucer.cpp': No such file or directory
+  Generating Code...

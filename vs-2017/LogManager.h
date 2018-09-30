@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <map>
 
+
 // Engine includes.
 #include "Manager.h"
 
@@ -29,7 +30,7 @@ class LogManager : public Manager {
   LogManager(LogManager const&);    // Don't allow copy.
   void operator=(LogManager const&);// Don't allow assignment.
   bool m_do_flush;                  // True if flush to disk after write.
-  FILE *m_p_f;						// Pointer to main logfile.
+  FILE *m_p_f;                      // Pointer to main logfile.
 
  public:
   // If logfile is open, close it.

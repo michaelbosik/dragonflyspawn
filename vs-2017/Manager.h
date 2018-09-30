@@ -13,7 +13,6 @@
 
 // Engine includes.
 #include "Event.h"
-#include "Object.h"
 
 namespace df {
 
@@ -28,7 +27,6 @@ class Manager {
   void setType(std::string new_type);
 
  public:
-
   // Default constructor.
   Manager();
 
