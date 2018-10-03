@@ -3,17 +3,26 @@
 //
 
 #include "Object.h"
+#include "VectorList.h"
 
 #define HERO_CHAR '>'
 
-class Button : public df::Object {
+namespace df {
 
-private:
-	df::Vector posTarget;
+	class Button : public df::Object {
 
-public:
-	Button();
-	~Button();
-	void setPosTarget(df::Vector v);
-	int eventHandler(const df::Event *p_e);
-};
+	private:
+		df::Vector posTarget;
+		df::VectorList targetList;
+		int b_time;
+
+	public:
+		Button();
+		~Button();
+		void setPosTarget(df::Vector v);
+		int eventHandler(const df::Event *p_e);
+		void addTarget(df::Vector *v);
+		void setTime(int time);
+		int getTime();
+	};
+}

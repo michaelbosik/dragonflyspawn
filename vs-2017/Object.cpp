@@ -168,7 +168,7 @@ void df::Object::draw() {
 
 	m_sprite_index = getSpriteIndex();
 
-	DM.drawFrame(m_position, m_p_sprite->getFrame(m_sprite_index), m_sprite_center, m_p_sprite->getColor());
+	DM.drawFrame(m_position, m_p_sprite->getFrame(m_sprite_index), m_sprite_center, m_p_sprite->getColor(), sprite_transparency);
 
 	if (getSpriteSlowdown() == 0)
 		return;

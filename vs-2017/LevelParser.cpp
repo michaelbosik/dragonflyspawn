@@ -8,87 +8,76 @@
 #include "LogManager.h"
 #include "utility.h"
 
+#include "Button.h"
+#include "Cube.h"
+#include "Spike.h"
+
 df::LevelParser::LevelParser() {
 	setType("Level");
-	setSpriteSlowdown(0);
 	setPosition(df::Vector(0, 0));
 	setAltitude(0);
-	spawn = new df::Vector(0, 0);
-	end = new df::Vector(0, 0);
-	lvl = new df::Sprite(2);
+	l_width = WINDOW_HORIZONTAL_CHARS_DEFAULT;
+	l_height = WINDOW_VERTICAL_CHARS_DEFAULT;
+	topWall = (DM.getVerticalPixels() / 2) - (l_height / 2) + 1;
+	leftWall = (DM.getHorizontalPixels() / 2) - (l_width / 2) + 1;
+	bottomWall = topWall + l_height - 1;
+	rightWall = leftWall + l_width - 1;
 }
 
-//Set a specific character to a location in the level matrix
-void df::LevelParser::setLvlPiece(df::Vector pos, char ch) {
-	int x = pos.getX();
-	int y = pos.getY();
-
-	level[x][y] = ch;
-}
-
-//Returns a specific character from a location in the level matrix
-char df::LevelParser::getLvlPiece(df::Vector pos) {
-	return NULL;
-}
 
 //Clears the level sprite
-void df::LevelParser::clearLevel() {
-
-	if (!RM.getSprite("level"))
-		return;
-
-	setSprite(NULL);
-	RM.unloadSprite("level");
+void df::LevelParser::resetLevel(std::string filename) {
+	lvlFrame.setString("");
+	loadLevel(filename);
 }
 
 //Fills the level matrix with characters parsed from the level file
 void df::LevelParser::loadLevel(std::string filename) {
 
-	clearLevel(); //Clear the level
-
 	std::ifstream p_file(filename);
 	std::string line;
-
+	std::string frameString;
 	int line_num = 0;
-	l_frames = RM.readLineInt(&p_file, &line_num, FRAMES_TOKEN.c_str()); //Set the level frames
-	l_width = RM.readLineInt(&p_file, &line_num, WIDTH_TOKEN.c_str()); //Set the level width
-	l_height = RM.readLineInt(&p_file, &line_num, HEIGHT_TOKEN.c_str()); //Set the level height
-	std::string color = RM.readLineStr(&p_file, &line_num, COLOR_TOKEN.c_str());
-	
-	lvl = new df::Sprite(l_frames);
-	LM.writeLog("loaded frames %i, width %i, height %i", l_frames, l_width, l_height);
 
-	for (int i = 0; i < l_frames; i++) {
-		df::Frame frame(RM.readFrame(&p_file, &line_num, l_width, l_height));
-		lvl->addFrame(frame);
-		//createBoxes(lvl, i);
+	lvlFrame.setWidth(WINDOW_HORIZONTAL_CHARS_DEFAULT);
+	lvlFrame.setHeight(WINDOW_VERTICAL_CHARS_DEFAULT);
+
+	for (int y = 0; y < l_height; y++) {
+		getline(p_file, line);
+		frameString += line;
+		line_num++;
 	}
 
-	getline(p_file, line);
-	line_num++;
-	if (line != END_SPRITE_TOKEN) {
-		LM.writeLog("No end sprite token.");
-		return;
-	}
+	lvlFrame.setString(frameString);
 
-	setSprite(lvl, false);
 	setTransparency('.');
 	setAltitude(0);
 
+	getline(p_file, line);
+	line_num++;
+	if (line != END_LEVEL_TOKEN) {
+		LM.writeLog("No end level token.");
+		return;
+	}
+
 	//Position the level in the center of the screen
-	setPosition(pixelsToSpaces(df::Vector(((DM.getHorizontalPixels() / 2) - (l_width / 2)), ((DM.getVerticalPixels() / 2) - (l_height / 2)))));
-	setSpriteSlowdown(RM.readLineInt(&p_file, &line_num, SLOW_TOKEN.c_str()));
-	*spawn = readLineVector(&p_file, &line_num, SPAWN_TOKEN.c_str());
-	*end = readLineVector(&p_file, &line_num, FINISH_TOKEN.c_str());
+	//setPosition(pixelsToSpaces(df::Vector(((DM.getHorizontalPixels() / 2) - (l_width / 2)), ((DM.getVerticalPixels() / 2) - (l_height / 2)))));
+	spawn = readLineVector(&p_file, &line_num, SPAWN_TOKEN.c_str());
+	end = readLineVector(&p_file, &line_num, FINISH_TOKEN.c_str());
+
+	createBoxes();
 
 	while (!p_file.eof()) {
 		getline(p_file, line);
-		if (line.compare("button"))
+		if (!line.compare("button"))
 			parseButton(&p_file, &line_num);
-		else if (line.compare("spikes"));
-		//parseSpikes();
-		else if (line.compare("box"));
-		//parseBox();
+		else if (!line.compare("spike"))
+			parseSpikes(&p_file, &line_num);
+		else if (!line.compare("cube"))
+			parseCube(&p_file, &line_num);
+		else
+			LM.writeLog("Couldnt determine line.");
+		line = "";
 	}
 
 	p_file.close();
@@ -114,44 +103,119 @@ df::Vector df::LevelParser::readLineVector(std::ifstream *l_file, int *l_line_nu
 	return vect;
 }
 
-//Returns an int that represents the time in seconds a trigger is activated for
-int df::LevelParser::parseButton(std::ifstream *l_file, int *l_line_num) {
-	return 0;
+//Parses and places a button in the level from the level file
+void df::LevelParser::parseButton(std::ifstream *l_file, int *l_line_num) {
+	std::string line = "";
+	df::Button *button = new df::Button();
+	button->setPosition(readLineVector(l_file, l_line_num, "bpos"));
+	button->setTime(RM.readLineInt(l_file, l_line_num, "btime"));
+	int trigs = RM.readLineInt(l_file, l_line_num, "btrigs");
+	for(int i=0; i<trigs; i++) {
+		df::Vector *buttonTarget = new df::Vector(readLineVector(l_file, l_line_num, "ptrig"));
+		button->addTarget(buttonTarget);
+	}
+	getline(*l_file, line);
+	l_line_num++;
+	if (line.compare(END_BUTTON_TOKEN))
+		LM.writeLog("No end button token");
+}
+
+//Parses and places a spike in the level from the level file
+void df::LevelParser::parseSpikes(std::ifstream *l_file, int *l_line_num) {
+	std::string line = "";
+	df::Spike *spike = new df::Spike(readLineVector(l_file, l_line_num, "spos"));
+	getline(*l_file, line);
+	l_line_num++;
+	if (line.compare(END_SPIKE_TOKEN))
+		LM.writeLog("No end button token");
+}
+
+//Parses and places a box in the level from the level file
+void df::LevelParser::parseCube(std::ifstream *l_file, int *l_line_num) {
+	std::string line = "";
+	df::Cube *cube = new df::Cube();
+	cube->setPosition(readLineVector(l_file, l_line_num, "cpos"));
+	getline(*l_file, line);
+	l_line_num++;
+	if (line.compare(END_CUBE_TOKEN))
+		LM.writeLog("No end button token");
 }
 
 //Creates collision boxes over every '#' parsed in the level file
-void df::LevelParser::createBoxes(df::Sprite *lvl, int frameNum) {
+void df::LevelParser::createBoxes() {
+	bool first = true;
+	int combo = 0;
+	df::Vector startPos(0,0);
 
-	df::Vector levelPos = getPosition();
-	df::Frame frame = lvl->getFrame(frameNum);
-	int f_height = frame.getHeight();
-	int f_width = frame.getWidth();
-	df::Vector start(0, 0);
-
-	df::Sprite *boxSprite = new df::Sprite(0);
-
-	//Iterate row by row, creating boxes around strings of '#'
-	for (int y = 0; y < frame.getHeight(); y++) {
-		int horiz = 0;
-		bool first = true;
-		for (int x = 0; x < frame.getWidth(); x++) {
-			if (frame.getString()[y*frame.getWidth() + x] == '#') {
+	for (int i = 1; i < lvlFrame.getHeight()-1; i++) {
+		for (int j = 1; j < lvlFrame.getWidth()-1; j++) {
+			int place = i * lvlFrame.getWidth() + j;
+			char plChar = lvlFrame.getString().at(place);
+			if (plChar == '#') {
 				if (first) {
-					df::Vector start(levelPos.getX()+x, levelPos.getY()+y);
+					startPos.setXY(j, i);
 					first = false;
 				}
-				horiz++;
+				combo++;
+			}
+			else if (!first && plChar != '#') {
+				df::Box *temp_box = new df::Box(startPos, combo, 1);
+				l_b_list.insert(temp_box);
+				first = true;
+				combo = 0;
 			}
 		}
-		df::Object *lvlBox = new df::Object();
-		lvlBox->setSprite(boxSprite);
-		lvlBox->setType("lvlBox");
-		df::Box box(start, horiz, 1);
-		lvlBox->setBox(box);
 	}
 }
 
 void df::LevelParser::draw() {
-	//createBoxes(lvl, getSpriteIndex());
-	df::Object::draw();
+
+	df::LvlBoxListIterator lbli(&l_b_list); //Delete for final
+
+	DM.drawFrame(df::Vector(0,0), lvlFrame, false, df::Color::WHITE, getTransparency());
+
+	//Delete for final
+	while (!lbli.isDone()) {
+		DM.drawCh(lbli.currentBox()->getCorner(), '*', df::Color::MAGENTA);
+		DM.drawCh(df::Vector(lbli.currentBox()->getCorner().getX() + lbli.currentBox()->getHorizontal(), lbli.currentBox()->getCorner().getY()), '*', df::Color::MAGENTA);
+		DM.drawCh(df::Vector(lbli.currentBox()->getCorner().getX(), lbli.currentBox()->getCorner().getY() + lbli.currentBox()->getVertical()), '*', df::Color::MAGENTA);
+		DM.drawCh(df::Vector(lbli.currentBox()->getCorner().getX() + lbli.currentBox()->getHorizontal(), lbli.currentBox()->getCorner().getY() + lbli.currentBox()->getVertical()), '*', df::Color::MAGENTA);
+		lbli.next();
+	}
+}
+
+int df::LevelParser::getTopWall() {
+	return topWall;
+}
+
+int df::LevelParser::getBottomWall() {
+	return bottomWall;
+}
+
+int df::LevelParser::getLeftWall() {
+	return leftWall;
+}
+
+int df::LevelParser::getRightWall() {
+	return rightWall;
+}
+
+void df::LevelParser::setTopWall(int top) {
+	topWall = top;
+}
+
+void df::LevelParser::setBottomWall(int bottom) {
+	bottomWall = bottom;
+}
+
+void df::LevelParser::setLeftWall(int left) {
+	leftWall = left;
+}
+
+void df::LevelParser::setRightWall(int right) {
+	rightWall = right;
+}
+
+df::Vector df::LevelParser::getSpawn() {
+	return spawn;
 }

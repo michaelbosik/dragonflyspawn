@@ -12,7 +12,7 @@
 #include "LogManager.h";
 #include "EventButton.h";
 
-Spike::Spike(df::Vector v) {
+df::Spike::Spike(df::Vector v) {
 
 	setPosition(v);
 
@@ -30,7 +30,7 @@ Spike::Spike(df::Vector v) {
 	setSolidness(df::HARD);
 }
 
-int Spike::eventHandler(const df::Event *p_e) {
+int df::Spike::eventHandler(const df::Event *p_e) {
 	if (p_e->getType() == df::COLLISION_EVENT) {
 		const df::EventCollision *p_c = dynamic_cast <df::EventCollision const *> (p_e);
 		if (p_c->getObject1()->getType() == "Player" || p_c->getObject2()->getType() == "Player")  {

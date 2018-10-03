@@ -173,6 +173,8 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="LevelParser.h" />
     <ClInclude Include="LogManager.h" />
+    <ClInclude Include="LvlBoxList.h" />
+    <ClInclude Include="LvlBoxListIterator.h" />
     <ClInclude Include="Manager.h" />
     <ClInclude Include="Music.h" />
     <ClInclude Include="Object.h" />
@@ -180,12 +182,13 @@
     <ClInclude Include="ObjectListIterator.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="Saucer.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Spike.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="utility.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="VectorList.h" />
+    <ClInclude Include="VectorListIterator.h" />
     <ClInclude Include="ViewObject.h" />
     <ClInclude Include="WorldManager.h" />
   </ItemGroup>
@@ -212,6 +215,8 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="LevelParser.cpp" />
     <ClCompile Include="LogManager.cpp" />
+    <ClCompile Include="LvlBoxList.cpp" />
+    <ClCompile Include="LvlBoxListIterator.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Music.cpp" />
     <ClCompile Include="Object.cpp" />
@@ -219,12 +224,13 @@
     <ClCompile Include="ObjectListIterator.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="Saucer.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Spike.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="utility.cpp" />
     <ClCompile Include="Vector.cpp" />
+    <ClCompile Include="VectorList.cpp" />
+    <ClCompile Include="VectorListIterator.cpp" />
     <ClCompile Include="ViewObject.cpp" />
     <ClCompile Include="WorldManager.cpp" />
   </ItemGroup>

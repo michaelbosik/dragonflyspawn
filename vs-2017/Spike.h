@@ -5,12 +5,16 @@
 #include "Object.h";
 #include "Vector.h";
 
-class Spike : public df::Object {
+namespace df {
 
-private:
-	df::Vector pos;
+	class Spike : public df::Object {
 
-public:
-	int eventHandler(const df::Event *p_e);
-	Spike(df::Vector v);
-};
+	private:
+		df::Vector pos;
+
+	public:
+		int eventHandler(const df::Event *p_e);
+		Spike(df::Vector v);
+	};
+
+}

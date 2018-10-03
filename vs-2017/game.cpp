@@ -21,9 +21,9 @@ int main(int argc, char *argv[]) {
 	LM.setFlush(true);
 
 	df::LevelParser lp;
-	lp.loadLevel("../levels/Example_Level.txt");
+	lp.loadLevel("../levels/Test_Level1.txt");
 
-	RM.loadSprite("../sprites/saucer-spr.txt", "saucer");
+	//RM.loadSprite("../sprites/saucer-spr.txt", "saucer");
 
 	RM.loadSprite("../sprites/player-spr.txt", "player");
 	RM.loadSprite("../sprites/spike-spr.txt", "spike");
@@ -32,12 +32,8 @@ int main(int argc, char *argv[]) {
 
 
 	Player p = Player::Player();
-	Spike spik = Spike::Spike(df::Vector(DM.getHorizontal() - 30, DM.getVertical() - 1));
-	Cube cub = Cube::Cube();
-	cub.setPosition(df::Vector(DM.getHorizontal() - 50, DM.getVertical() - 1));
-	Button but = Button::Button();
-	but.setPosition(df::Vector(DM.getHorizontal() - 60, DM.getVertical() - 1));
-	but.setPosTarget(df::Vector(DM.getHorizontal() - 30, DM.getVertical() - 1));
+	p.setPosition(lp.getSpawn());
+
 	GM.run();
 
 

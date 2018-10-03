@@ -59,7 +59,7 @@ int df::DisplayManager::drawCh(df::Vector world_pos, char ch, df::Color color) c
 	rectangle.setSize(sf::Vector2f(charWidth(), charHeight()));
 	rectangle.setFillColor(WINDOW_BACKGROUND_COLOR_DEFAULT);
 	rectangle.setPosition(pixelPos.getX() - charWidth() / 10, pixelPos.getY() + charHeight() / 5);
-	m_p_window->draw(rectangle);
+	//m_p_window->draw(rectangle);
 
 	//Create character text to draw
 	static sf::Text text("", m_font);
@@ -132,7 +132,7 @@ int df::DisplayManager::drawCh(df::Vector world_pos, char ch, unsigned char r, u
 	rectangle.setSize(sf::Vector2f(charWidth(), charHeight()));
 	rectangle.setFillColor(WINDOW_BACKGROUND_COLOR_DEFAULT);
 	rectangle.setPosition(pixelPos.getX() - charWidth() / 10, pixelPos.getY() + charHeight() / 5);
-	m_p_window->draw(rectangle);
+	//m_p_window->draw(rectangle);
 
 	//Create character text to draw
 	static sf::Text text("", m_font);
@@ -161,7 +161,7 @@ int df::DisplayManager::drawCh(df::Vector world_pos, char ch, unsigned char r, u
 // Draw single sprite frame at window location (x,y) with color.
 // If centered true, then center frame at (x,y).
 // Return 0 if ok, else -1.
-int df::DisplayManager::drawFrame(df::Vector world_pos, df::Frame frame, bool centered, df::Color color) const {
+int df::DisplayManager::drawFrame(df::Vector world_pos, df::Frame frame, bool centered, df::Color color, char transparent) const {
 
 	//Error chack empty string
 	if (frame.getString() == "")
@@ -180,12 +180,13 @@ int df::DisplayManager::drawFrame(df::Vector world_pos, df::Frame frame, bool ce
 	std::string str = frame.getString();
 
 	//Draw row by row, character by character
-	for (int y = 0; y < frame.getHeight(); y++) {
+	for (int y = 0; y < frame.getHeight(); y++)
 		for (int x = 0; x < frame.getWidth(); x++) {
-			df::Vector tempPos(world_pos.getX() - xOffset + x,world_pos.getY() - yOffset + y);
-			drawCh(tempPos, str[y * frame.getWidth() + x], color);
+			if (transparent == NULL || str[y*frame.getWidth() + x] != transparent) {
+				df::Vector temp_pos(world_pos.getX() - xOffset + x, world_pos.getY() - yOffset + y);
+				drawCh(temp_pos, str[y*frame.getWidth() + x], color);
+			}
 		}
-	}
 
 	return 0;
 }

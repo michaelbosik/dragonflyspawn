@@ -92,7 +92,7 @@ class DisplayManager : public Manager {
   // If centered true, then center frame at (x,y).
   // Return 0 if ok, else -1.
   int drawFrame(Vector world_pos, Frame frame, bool centered, 
-                Color color) const;
+                Color color, char transparent) const;
 
   // Draw string at window location (x,y) with color.
   // Justified left, center or right.
