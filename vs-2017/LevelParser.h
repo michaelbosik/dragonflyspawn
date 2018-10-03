@@ -32,6 +32,7 @@ namespace df {
 		Vector *spawn;		//Level spawn point
 		Vector *end;		//Level end point
 		Sprite *lvl;
+		int sprite_index;
 
 	public:
 		LevelParser();		//Constructor, LevelParser is Singleton
@@ -56,6 +57,8 @@ namespace df {
 
 		//Creates collision boxes over every '#' parsed in the level file
 		void createBoxes(Sprite *lvl, int frameNum);
+
+		void draw();
 	};
 }
 

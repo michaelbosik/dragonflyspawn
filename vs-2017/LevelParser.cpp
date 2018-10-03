@@ -61,7 +61,7 @@ void df::LevelParser::loadLevel(std::string filename) {
 	for (int i = 0; i < l_frames; i++) {
 		df::Frame frame(RM.readFrame(&p_file, &line_num, l_width, l_height));
 		lvl->addFrame(frame);
-		createBoxes(lvl, i);
+		//createBoxes(lvl, i);
 	}
 
 	getline(p_file, line);
@@ -73,6 +73,7 @@ void df::LevelParser::loadLevel(std::string filename) {
 
 	setSprite(lvl, false);
 	setTransparency('.');
+	setAltitude(0);
 
 	//Position the level in the center of the screen
 	setPosition(pixelsToSpaces(df::Vector(((DM.getHorizontalPixels() / 2) - (l_width / 2)), ((DM.getVerticalPixels() / 2) - (l_height / 2)))));
@@ -148,4 +149,9 @@ void df::LevelParser::createBoxes(df::Sprite *lvl, int frameNum) {
 		df::Box box(start, horiz, 1);
 		lvlBox->setBox(box);
 	}
+}
+
+void df::LevelParser::draw() {
+	//createBoxes(lvl, getSpriteIndex());
+	df::Object::draw();
 }
