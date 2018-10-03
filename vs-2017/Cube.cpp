@@ -26,7 +26,7 @@ Cube::Cube() {
 	df::Sprite *p_temp_sprite;
 	p_temp_sprite = RM.getSprite("cube");
 	if (!p_temp_sprite)
-		LM.writeLog("Cube::Cube(): Warning! Sprite '%s' not found", "ship");
+		LM.writeLog("Cube::Cube(): Warning! Sprite '%s' not found", "cube");
 	else {
 		setSprite(p_temp_sprite, true);
 		setSpriteSlowdown(0);

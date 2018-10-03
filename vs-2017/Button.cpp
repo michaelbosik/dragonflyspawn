@@ -14,7 +14,7 @@ Button::Button() {
 	df::Sprite *p_temp_sprite;
 	p_temp_sprite = RM.getSprite("button");
 	if (!p_temp_sprite)
-		LM.writeLog("Button::Button(): Warning! Sprite '%s' not found", "ship");
+		LM.writeLog("Button::Button(): Warning! Sprite '%s' not found", "button");
 	else {
 		setSprite(p_temp_sprite, true);
 		setSpriteSlowdown(0);
