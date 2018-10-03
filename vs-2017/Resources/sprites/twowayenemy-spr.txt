@@ -1,9 +1,0 @@
-frames 2
-width 4
-height 1
-color green
-____
-end
-_/\_
-end
-eof

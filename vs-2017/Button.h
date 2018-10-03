@@ -10,7 +10,7 @@ class Button : public df::Object {
 
 private:
 	df::Vector posTarget;
-	bool pressed;
+
 public:
 	Button();
 	~Button();

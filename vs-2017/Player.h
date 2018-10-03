@@ -1,7 +1,3 @@
-//
-//Player.h
-//
-#pragma once
 #include "EventKeyboard.h"
 #include "EventMouse.h"
 #include "Object.h"
@@ -26,12 +22,5 @@ public:
 	Player();
 	~Player();
 	int eventHandler(const df::Event *p_e);
-	float getVerticalSpeed();
-	void setVerticalSpeed(float addSpeed);
-	void addVerticalSpeed(float addSpeed);
-	float getHorizontalSpeed();
-	void setHorizontalSpeed(float addSpeed);
-	void addHorizontalSpeed(float addSpeed);
-	void kill();
-	void jump();
+	int getAltitude();
 };

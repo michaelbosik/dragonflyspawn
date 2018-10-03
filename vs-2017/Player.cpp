@@ -24,27 +24,24 @@ static void registerInterest(std::string s) {};
 
 Player::Player() {
 
-	setCentered(false);
-
 	df::Sprite *p_temp_sprite;
 	p_temp_sprite = RM.getSprite("player");
 	if (!p_temp_sprite)
-		LM.writeLog("Player::Player(): Warning! Sprite '%s' not found", "ship");
+		LM.writeLog("Player::Player(): Warning! Sprite '%s' not found", "player");
 	else {
 		setSprite(p_temp_sprite, true);
-		setSpriteSlowdown(0);
+		setSpriteSlowdown(0); 
 	}
 
+	c = df::BLUE;
+	setAltitude(1);
+
+	// Set object type.
+	setType("Player");
 
 	// Set starting location.
 	df::Vector pos(7.0f, DM.getVertical() / 2.0f);
 	setPosition(pos);
-
-	c = df::BLUE;
-	setAltitude(3);
-
-	// Set object type.
-	setType("Player");
 
 	horizontalSpeed = 0;
 	maxHorizontalSpeed = 3;
@@ -77,25 +74,6 @@ int Player::eventHandler(const df::Event *p_e) {
 	{
 		Player::~Player();
 	}
-
-	if (p_e->getType() == df::COLLISION_EVENT) {
-		const df::EventCollision *p_c = dynamic_cast <const df::EventCollision *> (p_e);
-		df::EventCollision *c = const_cast<df::EventCollision *>(p_c);
-
-		if (c->getObject2()->getSolidness() == df::HARD) {
-
-			if ((c->getObject2()->getPosition().getY() > getPosition().getY()) && (verticalSpeed > 0)) {
-				verticalSpeed = 0;
-				jumped = false;
-			}
-			else {
-				horizontalSpeed = 0;
-			}
-
-			return 1;
-		}
-	}
-
 
 	// If get here, have ignored this event.
 	return 0;
@@ -143,8 +121,6 @@ void Player::kbd(const df::EventKeyboard *p_keyboard_event) {
 			{
 				verticalSpeed = -.6;
 				jumped = true;
-				df::Sound *p_sound = df::ResourceManager::getInstance().getSound("jump");
-				p_sound->play();
 			}
 		}
 		break;
@@ -174,7 +150,7 @@ void Player::move(float dy, float dx) {
 	}
 	else if (dx != 0) {
 		new_pos = df::Vector(getPosition().getX() + dx, getPosition().getY());
-		if ((new_pos.getX() >= 0) && (new_pos.getX() + getSprite()->getWidth() < DM.getHorizontal()))
+		if ((new_pos.getX() >= 0) && new_pos.getX() < DM.getHorizontal())
 			WM.moveObject(this, new_pos);
 		else
 			horizontalSpeed = 0;
@@ -202,6 +178,26 @@ void Player::step() {
 		}
 	}
 
+	df::Box b;
+	/*
+	if (horizontalSpeed > 0) {
+		b = df::Box(df::Vector(this->getBox().getCorner().getX() + this->getBox().getHorizontal(),
+			this->getBox().getCorner().getY()),
+			this->getBox().getHorizontal(),
+			this->getBox().getVertical());
+	}
+	else if (horizontalSpeed < 0) {
+		b = df::Box(df::Vector(this->getBox().getCorner().getX() - this->getBox().getHorizontal(),
+			this->getBox().getCorner().getY()),
+			this->getBox().getHorizontal(),
+			this->getBox().getVertical());
+	}
+
+	if (df::boxIntersectsBox(this->getBox(), b))
+	{
+		horizontalSpeed = 0;
+	}
+	*/
 
 	if (horizontalSpeed != 0)
 		move(0, horizontalSpeed);
@@ -213,45 +209,22 @@ void Player::step() {
 	else
 		setSpriteSlowdown(4 + (horizontalSpeed));
 
+	df::Box b2 = df::Box(df::Vector(this->getBox().getCorner().getX() + this->getBox().getHorizontal() + 1,
+		this->getBox().getCorner().getY() + this->getBox().getVertical() + 1),
+		this->getBox().getHorizontal(),
+		this->getBox().getVertical());
+	//!df::boxIntersectsBox(this->getBox(), b) ||
 
 	if ((verticalSpeed + getBox().getCorner().getY() + getBox().getHorizontal()) < DM.getHorizontal()) {
 		verticalSpeed += .05;
 		move(verticalSpeed, 0);
 	} 
 
-
 	EventPlayer evenPlay = EventPlayer::EventPlayer(getPosition());
 	WM.onEvent(&evenPlay);
 }
 
-float Player::getVerticalSpeed() {
-	return verticalSpeed;
-}
 
-void Player::setVerticalSpeed(float addSpeed) {
-	verticalSpeed = addSpeed;
-}
-
-void Player::addVerticalSpeed(float addSpeed) {
-	verticalSpeed += addSpeed;
-}
-
-float Player::getHorizontalSpeed() {
-	return horizontalSpeed;
-}
-
-void Player::setHorizontalSpeed(float addSpeed) {
-	horizontalSpeed = addSpeed;
-}
-
-void Player::addHorizontalSpeed(float addSpeed) {
-	horizontalSpeed += addSpeed;
-}
-
-void Player::kill() {
-	Player::~Player();
-}
-
-void Player::jump() {
-	jumped = true;
+int Player::getAltitude() {
+	return 1;
 }

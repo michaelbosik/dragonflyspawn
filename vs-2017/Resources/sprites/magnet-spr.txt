@@ -1,7 +1,0 @@
-frames 1
-width 1
-height 1
-color yellow
-M
-end
-eof

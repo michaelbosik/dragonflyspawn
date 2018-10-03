@@ -24,8 +24,6 @@ df::Object::Object() {
 	m_box.setCorner(df::Vector());
 	m_box.setHorizontal(1);
 	m_box.setVertical(1);
-	no_soft = false;
-	sprite_transparency = '0';
 	// Add self to game world.
 	WorldManager::getInstance().insertObject(this);
 }
@@ -92,7 +90,7 @@ df::Solidness df::Object::getSolidness() const {
 
 //Set Altitude of Object
 int df::Object::setAltitude(int new_altitude) {
-	if (new_altitude > 0 && new_altitude < MAX_ALTITUDE)
+	if(new_altitude > 0 && new_altitude < MAX_ALTITUDE)
 	{
 		m_altitude = new_altitude;
 		return 0;
@@ -159,7 +157,7 @@ df::Box df::Object::getBox() const {
 // Draw single Sprite Frame.
 // Drawing accounts for centering & slowdown, and advances Sprite Frame.
 void df::Object::draw() {
-
+	
 	DM.drawCh(getPosition(), '*', df::Color::MAGENTA);
 	DM.drawCh(df::Vector(getPosition().getX() + getBox().getHorizontal(), getPosition().getY()), '*', df::Color::MAGENTA);
 	DM.drawCh(df::Vector(getPosition().getX(), getPosition().getY() + getBox().getVertical()), '*', df::Color::MAGENTA);
@@ -249,24 +247,4 @@ void df::Object::setSpriteSlowdownCount(int new_sprite_slowdown_count) {
 
 int df::Object::getSpriteSlowdownCount() const {
 	return m_sprite_slowdown_count;
-}
-
-//Set 'no_soft' setting (true - cannot move onto SOFT Objects)
-void df::Object::setNoSoft(bool new_no_soft) {
-	no_soft = new_no_soft;
-}
-
-//Get 'no_soft' setting (true - cannot move onto SOFT Objects)
-bool df::Object::getNoSoft() const {
-	return no_soft;
-}
-
-//Set sprite transparency character (0 means none)
-void df::Object::setTransparency(char transparent) {
-	sprite_transparency = transparent;
-}
-
-//Get sprite transparency character (0 means none)
-char df::Object::getTransparency() const {
-	return sprite_transparency;
 }

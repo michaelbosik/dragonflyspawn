@@ -17,9 +17,7 @@ class Cube : public df::Object {
 public:
 	Cube();
 	~Cube();
+	int getAltitude();
 	void setHorizontalSpeed(float hsp);
-	void setVerticalSpeed(float vsp);
-	void addHorizontalSpeed(float hsp);
-	void addVerticalSpeed(float vsp);
 	int eventHandler(const df::Event *p_e);
 };
