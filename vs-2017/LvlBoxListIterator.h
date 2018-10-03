@@ -9,7 +9,6 @@
 #include "Box.h"
 #include "LvlBoxList.h"
 
-namespace df {
 
 class LvlBoxList;
 
@@ -34,8 +33,7 @@ public:
 	bool isDone() const;
 
 	// Return pointer to current item in list, NULL if done/empty.
-	Box *currentBox() const;
+	df::Box *currentBox() const;
 };
 
-} // end of namespace df
 #endif // __LVL_BOX_LIST_ITERATOR_H__

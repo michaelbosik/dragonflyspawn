@@ -6,13 +6,13 @@
 
 
 //Constructor
-df::VectorList::VectorList() {
+VectorList::VectorList() {
 	m_count = 0;
 }
 
 // Insert Vector pointer in list.
 // Return 0 if ok, else -1.
-int df::VectorList::insert(Vector *p_o) {
+int VectorList::insert(df::Vector *p_o) {
 
 	//If list is full, return -1
 	//Else, add to list
@@ -27,7 +27,7 @@ int df::VectorList::insert(Vector *p_o) {
 
 // Remove Vector pointer from list,
 // Return 0 if found, else -1.
-int df::VectorList::remove(Vector *p_o) {
+int VectorList::remove(df::Vector *p_o) {
 
 	//Goes trough every Vector in the list
 	for (int i = 0; i < m_count; i++) {
@@ -47,21 +47,21 @@ int df::VectorList::remove(Vector *p_o) {
 }
 
 // Clear list (setting count to 0).
-void df::VectorList::clear() {
+void VectorList::clear() {
 	m_count = 0;
 }
 
 // Return count of number of VECTORS in list.
-int df::VectorList::getCount() const {
+int VectorList::getCount() const {
 	return m_count;
 }
 
 // Return true if list is empty, else false.
-bool df::VectorList::isEmpty() const {
+bool VectorList::isEmpty() const {
 	return (m_count == 0);
 }
 
 // Return true if list is full, else false.
-bool df::VectorList::isFull() const {
+bool VectorList::isFull() const {
 	return (m_count == MAX_VECTORS);
 }

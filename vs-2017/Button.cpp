@@ -9,7 +9,7 @@
 #include "EventButton.h";
 #include "WorldManager.h";
 
-df::Button::Button() {
+Button::Button() {
 
 	df::Sprite *p_temp_sprite;
 	p_temp_sprite = RM.getSprite("button");
@@ -25,27 +25,27 @@ df::Button::Button() {
 	setSolidness(df::SOFT);
 }
 
-df::Button::~Button() {
+Button::~Button() {
 	delete this;
 }
 
-void df::Button::setPosTarget(df::Vector v) {
+void Button::setPosTarget(df::Vector v) {
 	posTarget = v;
 }
 
-void df::Button::addTarget(df::Vector *v) {
+void Button::addTarget(df::Vector *v) {
 	targetList.insert(v);
 }
 
-void df::Button::setTime(int time) {
+void Button::setTime(int time) {
 	b_time = time;
 }
 
-int df::Button::getTime() {
+int Button::getTime() {
 	return b_time;
 }
 
-int df::Button::eventHandler(const df::Event *p_e) {
+int Button::eventHandler(const df::Event *p_e) {
 
 	if (p_e->getType() == df::COLLISION_EVENT)
 	{

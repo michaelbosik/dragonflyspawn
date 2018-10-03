@@ -5,8 +5,6 @@
 #include "Object.h";
 #include "Vector.h"
 
-namespace df {
-
 	class Cube : public df::Object {
 		int horizontalKeyPressed;
 		df::Vector playerPos;
@@ -23,4 +21,3 @@ namespace df {
 		void setHorizontalSpeed(float hsp);
 		int eventHandler(const df::Event *p_e);
 	};
-}

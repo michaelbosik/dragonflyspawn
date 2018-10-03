@@ -8,8 +8,6 @@
 #include "Box.h"
 #include "LvlBoxListIterator.h"
 
-namespace df {
-
 	const int MAX_BOXES = 5000;
 
 	class LvlBoxListIterator;
@@ -18,7 +16,7 @@ namespace df {
 
 	private:
 		int m_count;                    // Count of objects in list.
-		Box *m_p_box[MAX_BOXES];   // Array of pointers to objects.
+		df::Box *m_p_box[MAX_BOXES];   // Array of pointers to objects.
 
 	public:
 		friend class LvlBoxListIterator;           // Iterators can access.
@@ -28,11 +26,11 @@ namespace df {
 
 		// Insert box pointer in list.
 		// Return 0 if ok, else -1.
-		int insert(Box *p_o);
+		int insert(df::Box *p_o);
 
 		// Remove box pointer from list,
 		// Return 0 if found, else -1.
-		int remove(Box *p_o);
+		int remove(df::Box *p_o);
 
 		// Clear list (setting count to 0).
 		void clear();
@@ -47,5 +45,4 @@ namespace df {
 		bool isFull() const;
 	};
 
-} // end of namespace df
 #endif // __LVL_BOX_LIST_H__

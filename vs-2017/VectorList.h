@@ -11,7 +11,6 @@
 #include "Vector.h"
 #include "VectorListIterator.h"
 
-namespace df {
 
 	const int MAX_VECTORS = 5000;
 
@@ -21,7 +20,7 @@ namespace df {
 
 	private:
 		int m_count;                    // Count of VECTORS in list.
-		Vector *m_p_vect[MAX_VECTORS];   // Array of pointers to VECTORS.
+		df::Vector *m_p_vect[MAX_VECTORS];   // Array of pointers to VECTORS.
 
 	public:
 		friend class VectorListIterator;           // Iterators can access.
@@ -31,11 +30,11 @@ namespace df {
 
 		// Insert Vector pointer in list.
 		// Return 0 if ok, else -1.
-		int insert(Vector *p_o);
+		int insert(df::Vector *p_o);
 
 		// Remove Vector pointer from list,
 		// Return 0 if found, else -1.
-		int remove(Vector *p_o);
+		int remove(df::Vector *p_o);
 
 		// Clear list (setting count to 0).
 		void clear();
@@ -49,6 +48,4 @@ namespace df {
 		// Return true if list is full, else false.
 		bool isFull() const;
 	};
-
-} // end of namespace df
 #endif // __VECTOR_LIST_H__

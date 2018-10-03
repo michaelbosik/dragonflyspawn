@@ -12,12 +12,12 @@
 #include "Cube.h"
 #include "Spike.h"
 
-df::LevelParser::LevelParser() {
+LevelParser::LevelParser() {
 	setType("Level");
 	setPosition(df::Vector(0, 0));
 	setAltitude(0);
-	l_width = WINDOW_HORIZONTAL_CHARS_DEFAULT;
-	l_height = WINDOW_VERTICAL_CHARS_DEFAULT;
+	l_width = df::WINDOW_HORIZONTAL_CHARS_DEFAULT;
+	l_height = df::WINDOW_VERTICAL_CHARS_DEFAULT;
 	topWall = (DM.getVerticalPixels() / 2) - (l_height / 2) + 1;
 	leftWall = (DM.getHorizontalPixels() / 2) - (l_width / 2) + 1;
 	bottomWall = topWall + l_height - 1;
@@ -26,21 +26,21 @@ df::LevelParser::LevelParser() {
 
 
 //Clears the level sprite
-void df::LevelParser::resetLevel(std::string filename) {
+void LevelParser::resetLevel(std::string filename) {
 	lvlFrame.setString("");
 	loadLevel(filename);
 }
 
 //Fills the level matrix with characters parsed from the level file
-void df::LevelParser::loadLevel(std::string filename) {
+void LevelParser::loadLevel(std::string filename) {
 
 	std::ifstream p_file(filename);
 	std::string line;
 	std::string frameString;
 	int line_num = 0;
 
-	lvlFrame.setWidth(WINDOW_HORIZONTAL_CHARS_DEFAULT);
-	lvlFrame.setHeight(WINDOW_VERTICAL_CHARS_DEFAULT);
+	lvlFrame.setWidth(df::WINDOW_HORIZONTAL_CHARS_DEFAULT);
+	lvlFrame.setHeight(df::WINDOW_VERTICAL_CHARS_DEFAULT);
 
 	for (int y = 0; y < l_height; y++) {
 		getline(p_file, line);
@@ -84,7 +84,7 @@ void df::LevelParser::loadLevel(std::string filename) {
 }
 
 //Returns a vector presented in a line of the level file
-df::Vector df::LevelParser::readLineVector(std::ifstream *l_file, int *l_line_num, const char* tag) {
+df::Vector LevelParser::readLineVector(std::ifstream *l_file, int *l_line_num, const char* tag) {
 	std::string line;
 	getline(*l_file, line);
 	if (!line.compare(tag)) {
@@ -104,9 +104,9 @@ df::Vector df::LevelParser::readLineVector(std::ifstream *l_file, int *l_line_nu
 }
 
 //Parses and places a button in the level from the level file
-void df::LevelParser::parseButton(std::ifstream *l_file, int *l_line_num) {
+void LevelParser::parseButton(std::ifstream *l_file, int *l_line_num) {
 	std::string line = "";
-	df::Button *button = new df::Button();
+	Button *button = new Button();
 	button->setPosition(readLineVector(l_file, l_line_num, "bpos"));
 	button->setTime(RM.readLineInt(l_file, l_line_num, "btime"));
 	int trigs = RM.readLineInt(l_file, l_line_num, "btrigs");
@@ -121,9 +121,9 @@ void df::LevelParser::parseButton(std::ifstream *l_file, int *l_line_num) {
 }
 
 //Parses and places a spike in the level from the level file
-void df::LevelParser::parseSpikes(std::ifstream *l_file, int *l_line_num) {
+void LevelParser::parseSpikes(std::ifstream *l_file, int *l_line_num) {
 	std::string line = "";
-	df::Spike *spike = new df::Spike(readLineVector(l_file, l_line_num, "spos"));
+	Spike *spike = new Spike(readLineVector(l_file, l_line_num, "spos"));
 	getline(*l_file, line);
 	l_line_num++;
 	if (line.compare(END_SPIKE_TOKEN))
@@ -131,9 +131,9 @@ void df::LevelParser::parseSpikes(std::ifstream *l_file, int *l_line_num) {
 }
 
 //Parses and places a box in the level from the level file
-void df::LevelParser::parseCube(std::ifstream *l_file, int *l_line_num) {
+void LevelParser::parseCube(std::ifstream *l_file, int *l_line_num) {
 	std::string line = "";
-	df::Cube *cube = new df::Cube();
+	Cube *cube = new Cube();
 	cube->setPosition(readLineVector(l_file, l_line_num, "cpos"));
 	getline(*l_file, line);
 	l_line_num++;
@@ -142,7 +142,7 @@ void df::LevelParser::parseCube(std::ifstream *l_file, int *l_line_num) {
 }
 
 //Creates collision boxes over every '#' parsed in the level file
-void df::LevelParser::createBoxes() {
+void LevelParser::createBoxes() {
 	bool first = true;
 	int combo = 0;
 	df::Vector startPos(0,0);
@@ -168,9 +168,9 @@ void df::LevelParser::createBoxes() {
 	}
 }
 
-void df::LevelParser::draw() {
+void LevelParser::draw() {
 
-	df::LvlBoxListIterator lbli(&l_b_list); //Delete for final
+	LvlBoxListIterator lbli(&l_b_list); //Delete for final
 
 	DM.drawFrame(df::Vector(0,0), lvlFrame, false, df::Color::WHITE, getTransparency());
 
@@ -184,38 +184,38 @@ void df::LevelParser::draw() {
 	}
 }
 
-int df::LevelParser::getTopWall() {
+int LevelParser::getTopWall() {
 	return topWall;
 }
 
-int df::LevelParser::getBottomWall() {
+int LevelParser::getBottomWall() {
 	return bottomWall;
 }
 
-int df::LevelParser::getLeftWall() {
+int LevelParser::getLeftWall() {
 	return leftWall;
 }
 
-int df::LevelParser::getRightWall() {
+int LevelParser::getRightWall() {
 	return rightWall;
 }
 
-void df::LevelParser::setTopWall(int top) {
+void LevelParser::setTopWall(int top) {
 	topWall = top;
 }
 
-void df::LevelParser::setBottomWall(int bottom) {
+void LevelParser::setBottomWall(int bottom) {
 	bottomWall = bottom;
 }
 
-void df::LevelParser::setLeftWall(int left) {
+void LevelParser::setLeftWall(int left) {
 	leftWall = left;
 }
 
-void df::LevelParser::setRightWall(int right) {
+void LevelParser::setRightWall(int right) {
 	rightWall = right;
 }
 
-df::Vector df::LevelParser::getSpawn() {
+df::Vector LevelParser::getSpawn() {
 	return spawn;
 }

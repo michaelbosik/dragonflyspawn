@@ -17,8 +17,6 @@
 // Two-letter acronym for easier access to manager.
 #define LP df::LevelParser::getInstance()
 
-namespace df {
-
 	const std::string SPAWN_TOKEN = "spawn";
 	const std::string FINISH_TOKEN = "fin";
 	const std::string END_LEVEL_TOKEN = "eol";
@@ -36,9 +34,9 @@ namespace df {
 		int topWall;
 		int bottomWall;
 		LvlBoxList l_b_list;
-		Frame lvlFrame;
-		Vector spawn;		//Level spawn point
-		Vector end;		//Level end point
+		df::Frame lvlFrame;
+		df::Vector spawn;		//Level spawn point
+		df::Vector end;		//Level end point
 
 	public:
 		LevelParser();		//Constructor, LevelParser is Singleton
@@ -76,8 +74,7 @@ namespace df {
 		int getLeftWall();
 		int getRightWall();
 
-		Vector getSpawn();
+		df::Vector getSpawn();
 	};
-}
 
 #endif //__LEVEL_PARSER_H__

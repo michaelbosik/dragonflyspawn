@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
 
 	LM.setFlush(true);
 
-	df::LevelParser lp;
+	LevelParser lp;
 	lp.loadLevel("../levels/Test_Level1.txt");
 
 	//RM.loadSprite("../sprites/saucer-spr.txt", "saucer");

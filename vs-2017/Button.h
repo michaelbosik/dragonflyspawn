@@ -7,13 +7,12 @@
 
 #define HERO_CHAR '>'
 
-namespace df {
 
 	class Button : public df::Object {
 
 	private:
 		df::Vector posTarget;
-		df::VectorList targetList;
+		VectorList targetList;
 		int b_time;
 
 	public:
@@ -25,4 +24,3 @@ namespace df {
 		void setTime(int time);
 		int getTime();
 	};
-}

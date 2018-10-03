@@ -6,13 +6,13 @@
 
 
 //Constructor
-df::LvlBoxList::LvlBoxList() {
+LvlBoxList::LvlBoxList() {
 	m_count = 0;
 }
 
 // Insert Box pointer in list.
 // Return 0 if ok, else -1.
-int df::LvlBoxList::insert(Box *p_o) {
+int LvlBoxList::insert(df::Box *p_o) {
 
 	//If list is full, return -1
 	//Else, add to list
@@ -27,7 +27,7 @@ int df::LvlBoxList::insert(Box *p_o) {
 
 // Remove Box pointer from list,
 // Return 0 if found, else -1.
-int df::LvlBoxList::remove(Box *p_o) {
+int LvlBoxList::remove(df::Box *p_o) {
 
 	//Goes trough every Box in the list
 	for (int i = 0; i < m_count; i++) {
@@ -47,21 +47,21 @@ int df::LvlBoxList::remove(Box *p_o) {
 }
 
 // Clear list (setting count to 0).
-void df::LvlBoxList::clear() {
+void LvlBoxList::clear() {
 	m_count = 0;
 }
 
 // Return count of number of Boxs in list.
-int df::LvlBoxList::getCount() const {
+int LvlBoxList::getCount() const {
 	return m_count;
 }
 
 // Return true if list is empty, else false.
-bool df::LvlBoxList::isEmpty() const {
+bool LvlBoxList::isEmpty() const {
 	return (m_count == 0);
 }
 
 // Return true if list is full, else false.
-bool df::LvlBoxList::isFull() const {
+bool LvlBoxList::isFull() const {
 	return (m_count == MAX_BOXES);
 }

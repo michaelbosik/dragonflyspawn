@@ -11,8 +11,6 @@
 #include "Vector.h"
 #include "VectorList.h"
 
-namespace df {
-
 	class VectorList;
 
 	class VectorListIterator {
@@ -36,8 +34,7 @@ namespace df {
 		bool isDone() const;
 
 		// Return pointer to current item in list, NULL if done/empty.
-		Vector *currentVector() const;
+		df::Vector *currentVector() const;
 	};
 
-} // end of namespace df
 #endif // __VECTOR_LIST_ITERATOR_H__

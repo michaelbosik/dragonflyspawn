@@ -21,7 +21,7 @@
 // Define registerInterest in case engine does not.
 static void registerInterest(std::string s) {};
 
-df::Cube::Cube() {
+Cube::Cube() {
 
 	df::Sprite *p_temp_sprite;
 	p_temp_sprite = RM.getSprite("cube");
@@ -51,13 +51,13 @@ df::Cube::Cube() {
 	playerPos = df::Vector();
 }
 
-df::Cube::~Cube() {
+Cube::~Cube() {
 	WM.removeObject(this);
 }
 
 
 // Move up or down.
-void df::Cube::move(float dy, float dx) {
+void Cube::move(float dy, float dx) {
 	df::Vector new_pos;
 	if (dy != 0)
 	{
@@ -80,7 +80,7 @@ void df::Cube::move(float dy, float dx) {
 }
 
 
-void df::Cube::step() {
+void Cube::step() {
 
 		if (horizontalSpeed > 0) {
 			if (horizontalSpeed < 0.06)
@@ -118,17 +118,17 @@ void df::Cube::step() {
 }
 
 
-int df::Cube::getAltitude() {
+int Cube::getAltitude() {
 	return 3;
 }
 
-void df::Cube::setHorizontalSpeed(float hsp) {
+void Cube::setHorizontalSpeed(float hsp) {
 	horizontalSpeed = hsp;
 }
 
 // Handle event.
 // Return 0 if ignored, else 1.
-int df::Cube::eventHandler(const df::Event *p_e) {
+int Cube::eventHandler(const df::Event *p_e) {
 
 	if (p_e->getType() == df::STEP_EVENT) {
 		step();
