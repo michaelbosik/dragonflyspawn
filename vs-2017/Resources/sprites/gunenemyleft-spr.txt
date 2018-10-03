@@ -1,0 +1,8 @@
+frames 1
+width 4
+height 2
+color green
+--0 
+ / \
+end
+eof

@@ -11,6 +11,8 @@
 
 Button::Button() {
 
+	setCentered(false);
+
 	df::Sprite *p_temp_sprite;
 	p_temp_sprite = RM.getSprite("button");
 	if (!p_temp_sprite)
@@ -23,6 +25,8 @@ Button::Button() {
 	setAltitude(1);
 	setType("Button");
 	setSolidness(df::SOFT);
+
+	pressed = false;
 }
 
 Button::~Button() {
@@ -37,9 +41,15 @@ int Button::eventHandler(const df::Event *p_e) {
 
 	if (p_e->getType() == df::COLLISION_EVENT)
 	{
-		EventButton eb = EventButton::EventButton(posTarget);
-		WM.onEvent(&eb);
-		return 1;
+		if (!pressed) {
+			EventButton eb = EventButton::EventButton(posTarget);
+			WM.onEvent(&eb);
+			setSpriteIndex(1);
+			pressed = true;
+			df::Sound *p_sound = df::ResourceManager::getInstance().getSound("button");
+			p_sound->play();
+			return 1;
+		}
 	}
 
 	return 0;

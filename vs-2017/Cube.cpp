@@ -23,6 +23,8 @@ static void registerInterest(std::string s) {};
 
 Cube::Cube() {
 
+	setCentered(false);
+
 	df::Sprite *p_temp_sprite;
 	p_temp_sprite = RM.getSprite("cube");
 	if (!p_temp_sprite)
@@ -118,12 +120,20 @@ void Cube::step() {
 }
 
 
-int Cube::getAltitude() {
-	return 3;
-}
-
 void Cube::setHorizontalSpeed(float hsp) {
 	horizontalSpeed = hsp;
+}
+
+void Cube::setVerticalSpeed(float vsp) {
+	verticalSpeed = vsp;
+}
+
+void Cube::addHorizontalSpeed(float hsp) {
+	horizontalSpeed += hsp;
+}
+
+void Cube::addVerticalSpeed(float vsp) {
+	verticalSpeed += vsp;
 }
 
 // Handle event.
@@ -136,21 +146,29 @@ int Cube::eventHandler(const df::Event *p_e) {
 	}
 
 	if (p_e->getType() == CUBE_MOVE_EVENT) {
-		if (((getPosition().getX() - getSprite()->getWidth() - 1) < playerPos.getX()) 
+		if ((((getPosition().getX() - getSprite()->getWidth() - 1) < playerPos.getX()) 
 			&& (playerPos.getX() < getPosition().getX()))
+			&& ((playerPos.getY() < (getPosition().getY() + getBox().getVertical()))
+				&& ((playerPos.getY() + 2) > getPosition().getY())))
 		{
 				const EventCubeMove *p_c = dynamic_cast <const EventCubeMove *> (p_e);
 				EventCubeMove *c = const_cast<EventCubeMove *>(p_c);
 				setHorizontalSpeed(c->getHorizontalSpeed());
+				df::Sound *p_sound = df::ResourceManager::getInstance().getSound("push");
+				p_sound->play();
 				return 1;
 			
 		}
-		else if (((getPosition().getX() + getSprite()->getWidth()) < playerPos.getX()) 
-			&& (playerPos.getX() < (getPosition().getX() + getSprite()->getWidth() + getSprite()->getWidth()))) {
+		else if ((((getPosition().getX() + getSprite()->getWidth()) < playerPos.getX()) 
+			&& (playerPos.getX() < (getPosition().getX() + getSprite()->getWidth() + getSprite()->getWidth())))
+			&& ((playerPos.getY() < (getPosition().getY() + getBox().getVertical()))
+				&& ((playerPos.getY() + 2) > getPosition().getY()))){
 
 				const EventCubeMove *p_c = dynamic_cast <const EventCubeMove *> (p_e);
 				EventCubeMove *c = const_cast<EventCubeMove *>(p_c);
 				setHorizontalSpeed(c->getHorizontalSpeed() * -1);
+				df::Sound *p_sound = df::ResourceManager::getInstance().getSound("push");
+				p_sound->play();
 				return 1;
 		}
 	}

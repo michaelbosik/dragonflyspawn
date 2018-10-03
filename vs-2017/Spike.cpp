@@ -54,7 +54,7 @@ int Spike::eventHandler(const df::Event *p_e) {
 				setSprite(p_temp_sprite, true);
 				setSpriteSlowdown(0);
 			}
-
+			return 1;
 		}
 	}
 
