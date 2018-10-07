@@ -10,12 +10,15 @@
 #include "Sprite.h"
 #include "Object.h"
 #include "LvlBoxList.h"
+#include "ObjectList.h";
 #include <string>
 #include <fstream>
 #include <iostream>
+#include "Player.h";
+#include "Exit.h";
 
 // Two-letter acronym for easier access to manager.
-#define LP df::LevelParser::getInstance()
+#define LEP df::LevelParser::getInstance()
 
 	const std::string SPAWN_TOKEN = "spawn";
 	const std::string FINISH_TOKEN = "fin";
@@ -23,6 +26,13 @@
 	const std::string END_BUTTON_TOKEN = "eob";
 	const std::string END_SPIKE_TOKEN = "eos";
 	const std::string END_CUBE_TOKEN = "eoc";
+	const std::string END_HORIZONTAL_TOKEN = "eoh";
+	const std::string END_VERTICAL_TOKEN = "eov";
+	const std::string END_MOVE_TOKEN = "eom";
+	const std::string END_GUN_TOKEN = "eog";
+	const std::string END_TWO_WAY_TOKEN = "eotw";
+	const std::string END_SPRING_TOKEN = "eosp";
+	const std::string END_BELT_TOKEN = "eob";
 
 	class LevelParser : public df::Object{
 	private:
@@ -33,7 +43,13 @@
 		int rightWall;
 		int topWall;
 		int bottomWall;
+		Player player;
+		Exit exit;
+		std::string levelList[500];
+		int levelAmount;
+		int currentLevel;
 		LvlBoxList l_b_list;
+		df::ObjectList objList;
 		df::Frame lvlFrame;
 		df::Vector spawn;		//Level spawn point
 		df::Vector end;		//Level end point
@@ -59,6 +75,20 @@
 		//Parses and places a box in the level from the level file
 		void parseCube(std::ifstream *l_file, int *l_line_num);
 
+		void parseHorizontalWall(std::ifstream *l_file, int *l_line_num);
+
+		void parseVericalWall(std::ifstream *l_file, int *l_line_num);
+
+		void parseMovingWall(std::ifstream *l_file, int *l_line_num);
+
+		void parseSpring(std::ifstream *l_file, int *l_line_num);
+
+		void parseBelt(std::ifstream *l_file, int *l_line_num);
+
+		void parseTwoWay(std::ifstream *l_file, int *l_line_num);
+
+		void parseGun(std::ifstream *l_file, int *l_line_num);
+
 		//Creates collision boxes over every '#' parsed in the level file
 		void createBoxes();
 
@@ -75,6 +105,26 @@
 		int getRightWall();
 
 		df::Vector getSpawn();
+
+		LvlBoxList getBoxList();
+
+		//Unloads the level
+		void unloadLevel();
+
+		//Adds a file path to the list of levels
+		void addLevel(std::string file);
+
+		//Loads the first level in the level list
+		void loadFirstLevel();
+
+		//Loads the next level in the level list
+		void loadNextLevel();
+
+		//reloads the current level
+		void reloadLevel();
+
+		//handles events
+		int eventHandler(const df::Event *p_e);
 	};
 
 #endif //__LEVEL_PARSER_H__

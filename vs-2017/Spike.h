@@ -13,5 +13,5 @@
 
 	public:
 		int eventHandler(const df::Event *p_e);
-		Spike(df::Vector v);
+		Spike(int d);
 	};

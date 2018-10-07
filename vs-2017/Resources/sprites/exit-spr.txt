@@ -1,0 +1,9 @@
+frames 1
+width 4
+height 3
+color blue
+ __ 
+|  |
+|  |
+end
+eof

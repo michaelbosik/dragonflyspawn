@@ -12,11 +12,11 @@
 #include "ResourceManager.h"
 #include "EventOut.h";
 #include "EventView.h";
-#include "utility.h";
 #include "EventCubeMove.h";
-#include "EventCollision.h";
+#include "EventCollision.h"
 #include "EventSpike.h";
 #include "EventPlayer.h";
+#include "utility.h";
 
 // Define registerInterest in case engine does not.
 static void registerInterest(std::string s) {};
@@ -34,6 +34,8 @@ Cube::Cube() {
 
 	setAltitude(3);
 
+	setCentered(false);
+
 	// Set object type.
 	setType("Cube");
 
@@ -49,6 +51,8 @@ Cube::Cube() {
 	setSolidness(df::HARD);
 
 	playerPos = df::Vector();
+
+
 }
 
 Cube::~Cube() {
@@ -105,11 +109,6 @@ void Cube::step() {
 	else
 		setSpriteSlowdown(4 + (horizontalSpeed));
 
-	df::Box b = df::Box(df::Vector(this->getBox().getCorner().getX() + this->getBox().getHorizontal() + 1,
-		this->getBox().getCorner().getY() + this->getBox().getVertical() + 1),
-		this->getBox().getHorizontal(),
-		this->getBox().getVertical());
-	//!df::boxIntersectsBox(this->getBox(), b) ||
 
 	if ((verticalSpeed + getBox().getCorner().getY() + getBox().getHorizontal()) < DM.getHorizontal()) {
 		verticalSpeed += .05;
@@ -117,13 +116,24 @@ void Cube::step() {
 	}
 }
 
-
+//Gets tge altitiude
 int Cube::getAltitude() {
 	return 3;
 }
 
+//Sets the horizontal Speed
 void Cube::setHorizontalSpeed(float hsp) {
 	horizontalSpeed = hsp;
+}
+
+//Adds to the horiziontal speed
+void Cube::addHorizontalSpeed(float hsp) {
+	horizontalSpeed += hsp;
+}
+
+//Sets the vertical speed
+void Cube::setVerticalSpeed(float vsp) {
+	verticalSpeed = vsp;
 }
 
 // Handle event.
@@ -136,11 +146,11 @@ int Cube::eventHandler(const df::Event *p_e) {
 	}
 
 	if (p_e->getType() == CUBE_MOVE_EVENT) {
-		if (((getPosition().getX() - getSprite()->getWidth() - 1) < playerPos.getX()) 
-			&& (playerPos.getX() < getPosition().getX()))
+		const EventCubeMove *p_c = dynamic_cast <const EventCubeMove *> (p_e);
+		EventCubeMove *c = const_cast<EventCubeMove *>(p_c);
+		if (((((getPosition().getX() - getSprite()->getWidth() - 1) <= playerPos.getX()) || ((getPosition().getX() - getSprite()->getWidth()) <= playerPos.getX()) || ((getPosition().getX() - getSprite()->getWidth() + 1) <= playerPos.getX()))
+			&& (playerPos.getX() < getPosition().getX())))
 		{
-				const EventCubeMove *p_c = dynamic_cast <const EventCubeMove *> (p_e);
-				EventCubeMove *c = const_cast<EventCubeMove *>(p_c);
 				setHorizontalSpeed(c->getHorizontalSpeed());
 				return 1;
 			
@@ -148,8 +158,6 @@ int Cube::eventHandler(const df::Event *p_e) {
 		else if (((getPosition().getX() + getSprite()->getWidth()) < playerPos.getX()) 
 			&& (playerPos.getX() < (getPosition().getX() + getSprite()->getWidth() + getSprite()->getWidth()))) {
 
-				const EventCubeMove *p_c = dynamic_cast <const EventCubeMove *> (p_e);
-				EventCubeMove *c = const_cast<EventCubeMove *>(p_c);
 				setHorizontalSpeed(c->getHorizontalSpeed() * -1);
 				return 1;
 		}
@@ -159,6 +167,22 @@ int Cube::eventHandler(const df::Event *p_e) {
 		const EventPlayer *p_c = dynamic_cast <const EventPlayer *> (p_e);
 		EventPlayer *c = const_cast<EventPlayer *>(p_c);
 		playerPos = c->getPos();
+	}
+
+	if (p_e->getType() == df::COLLISION_EVENT) {
+		const df::EventCollision *p_c = dynamic_cast <const df::EventCollision *> (p_e);
+		df::EventCollision *c = const_cast<df::EventCollision *>(p_c);
+		if (c->getObject2()->getSolidness() == df::HARD) {
+
+			if ((c->getObject2()->getPosition().getY() > getPosition().getY()) && (verticalSpeed > 0)) {
+				verticalSpeed = 0;
+			}
+			else {
+				horizontalSpeed = 0;
+			}
+
+			return 1;
+		}
 	}
 
 	// If get here, have ignored this event.
