@@ -101,6 +101,17 @@ int Player::eventHandler(const df::Event *p_e) {
 				}
 				jumped = false;
 			}
+			else if ((c->getObject2()->getPosition().getY() + c->getObject2()->getBox().getVertical() < (getPosition().getY()))) {
+				if ((c->getObject2()->getPosition().getY() + c->getObject2()->getBox().getVertical() - (getPosition().getY()) < 0)) {
+					verticalSpeed = (c->getObject2()->getPosition().getY() + c->getObject2()->getBox().getVertical() - (getPosition().getY()));
+					move(verticalSpeed + .01, 0);
+					verticalSpeed = 0;
+				}
+				else
+				{
+					verticalSpeed = 0;
+				}
+			}
 			else {
 				if (horizontalSpeed > 0) {
 					if (c->getObject2()->getPosition().getX() - (getPosition().getX() + getBox().getHorizontal()) > 0) {

@@ -51,13 +51,14 @@ hpos 56,17
 eoh
 button
 bpos 68,21
-btime 5
+btime 180
 btrigs 1
-btrig 25,22
+btrig 24,18
 eob
 eov
 moving
 mlength 5
+mtriggers 1
 mpos 24,18
 eov
 eof

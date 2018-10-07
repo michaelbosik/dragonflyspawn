@@ -207,6 +207,7 @@ void LevelParser::parseVericalWall(std::ifstream *l_file, int *l_line_num) {
 void LevelParser::parseMovingWall(std::ifstream *l_file, int *l_line_num) {
 	std::string line = "";
 	MovingWall *mw = new MovingWall(RM.readLineInt(l_file, l_line_num, "mlength"));
+	mw->setMultTriggers(RM.readLineInt(l_file, l_line_num, "mtriggers"));
 	mw->setPosition(readLineVector(l_file, l_line_num, "mpos"));
 	getline(*l_file, line);
 	l_line_num++;

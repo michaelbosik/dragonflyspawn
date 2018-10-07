@@ -10,12 +10,9 @@ class GunEnemy : public df::Object {
 private:
 	//keeps tack of which way the enemy is facing
 	int facing;
-	//keeps track of if the enemy has seen an object or not
-	bool seen;
 	//cooldown until next shot
 	int countdown;
 	//The line of sight of the enemy
-	df::Box sight;
 	Bullet *bullets[4];
 	int bulletNumber;
 	void step();

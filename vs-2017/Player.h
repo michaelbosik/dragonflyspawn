@@ -7,8 +7,8 @@
 #include "Object.h"
 #include "LvlBoxList.h";
 
-const float MAX_HORIZONTAL_SPEED = 1;
-const float HORIZONTAL_SPEED_INCREASE = .06;
+const float MAX_HORIZONTAL_SPEED = 1.05;
+const float HORIZONTAL_SPEED_INCREASE = .075;
 const float VERTICAL_SPEED_INCREASE = -.07;
 const float GRAVITY = .06;
 

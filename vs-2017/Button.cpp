@@ -8,6 +8,7 @@
 #include "LogManager.h";
 #include "EventButton.h";
 #include "WorldManager.h";
+#include "EventStep.h";
 
 Button::Button() {
 
@@ -59,15 +60,46 @@ int Button::eventHandler(const df::Event *p_e) {
 	if (p_e->getType() == df::COLLISION_EVENT)
 	{
 		if (!pressed) {
-			EventButton eb = EventButton::EventButton(posTarget);
-			WM.onEvent(&eb);
+			VectorListIterator vli(&targetList);
+			while (!vli.isDone()) {
+				EventButton eb = EventButton::EventButton(*vli.currentVector());
+				WM.onEvent(&eb);
+				vli.next();
+			}
+			frame = 0;
 			setSpriteIndex(1);
 			pressed = true;
 			df::Sound *p_sound = df::ResourceManager::getInstance().getSound("button");
 			p_sound->play();
 			return 1;
 		}
+		else {
+			frame = 0;
+		}
+	}
+
+	if (p_e->getType() == df::STEP_EVENT) {
+		step();
+		return 1;
 	}
 
 	return 0;
+}
+
+void Button::step() {
+
+	if (frame == b_time && pressed == true) {
+		setSpriteIndex(0);
+		pressed = false;
+		df::Sound *p_sound = df::ResourceManager::getInstance().getSound("button");
+		p_sound->play();
+		VectorListIterator vli(&targetList);
+		while (!vli.isDone()) {
+			EventButton eb = EventButton::EventButton(*vli.currentVector());
+			WM.onEvent(&eb);
+			vli.next();
+		}
+	}
+
+	frame++;
 }

@@ -4,6 +4,7 @@
 
 #include "Object.h"
 #include "VectorList.h"
+#include "VectorListIterator.h";
 
 #define HERO_CHAR '>'
 
@@ -20,6 +21,8 @@
 		//Weither or not the button has been pressed or not
 		bool pressed;
 
+		int frame;
+
 	public:
 		Button();
 		~Button();
@@ -33,4 +36,6 @@
 		void setTime(int time);
 		//returns time
 		int getTime();
+
+		void step();
 	};

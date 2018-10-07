@@ -49,9 +49,15 @@ int main(int argc, char *argv[]) {
 	lp.addLevel("Resources/levels/Alpha Level 2.txt");
 	lp.addLevel("Resources/levels/Platform Challenge 1.txt");
 	lp.addLevel("Resources/levels/Alpha Level 3.txt");
+	lp.addLevel("Resources/levels/Spike Challenge 1.txt");
+	lp.addLevel("Resources/levels/Spike Challenge 2.txt");
+	lp.addLevel("Resources/levels/Spike Challenge 3.txt");
+	lp.addLevel("Resources/levels/Spike Challenge 4.txt");
+	lp.addLevel("Resources/levels/Spike Challenge 5.txt");
 	lp.addLevel("Resources/levels/Alpha Level 4.txt");
 	lp.addLevel("Resources/levels/Alpha Level 5.txt");
 	lp.addLevel("Resources/levels/Alpha Level 6.txt");
+	lp.addLevel("Resources/levels/Alpha Level 7.txt");
 	lp.addLevel("Resources/levels/Alpha Level 8.txt");
 	lp.addLevel("Resources/levels/Alpha Level 9.txt");
 	lp.loadFirstLevel();

@@ -81,11 +81,11 @@ int TwoWayEnemy::eventHandler(const df::Event *p_e) {
 	if (p_e->getType() == df::COLLISION_EVENT) {
  		const df::EventCollision *p_c = dynamic_cast <const df::EventCollision *> (p_e);
 		df::EventCollision *c = const_cast<df::EventCollision *>(p_c);
-		if (c->getObject2()->getType() == "Player") {
+		if (c->getObject1()->getType() == "Player") {
 			df::Object *o2 = c->getObject1();
 			Player *p2 = reinterpret_cast <Player *> (o2);
-			if (p2->getVerticalSpeed() > .0 && (p2->getPosition().getY() + p2->getBox().getVertical()) < getPosition().getY()) {
-				p2->setVerticalSpeed(-.6);
+			if ((p2->getPosition().getY() + p2->getBox().getVertical()) < getPosition().getY()) {
+				p2->setVerticalSpeed(-.7);
 				p2->jump();
 				TwoWayEnemy::~TwoWayEnemy();
 			}
